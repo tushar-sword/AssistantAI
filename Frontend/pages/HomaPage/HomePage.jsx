@@ -1,34 +1,13 @@
 import React from "react";
-import { Link } from "react-router-dom";  // import Link
+import { Link } from "react-router-dom";
+import Navbar from "../../src/components/Navbar/Navbar";
+import Footer from "../../src/components/Footer/Footer";
 import "./HomePage.css";
 
 const HomePage = () => {
   return (
     <div className="homepage">
-      {/* Navbar */}
-      <nav className="navbar">
-        <div className="logo">AI Marketplace</div>
-        <ul className="nav-links">
-          <li>
-            <Link to="/add-product">Product Add</Link>
-          </li>
-          <li>
-            <Link to="/product-review">Product Review</Link>
-          </li>
-          <li>
-            <Link to="/ai-product-review">AI Product Review</Link>
-          </li>
-          <li>
-            <Link to="/suggestion">Suggestion</Link>
-          </li>
-          <li>
-            <Link to="/ai-content">AI Content</Link>
-          </li>
-          <li>
-            <Link to="/ai-story">AI Story</Link>
-          </li>
-        </ul>
-      </nav>
+      <Navbar />
 
       {/* Hero Section */}
       <div className="hero">
@@ -39,8 +18,10 @@ const HomePage = () => {
       {/* Features Section */}
       <div className="features">
         <div className="feature-card">
-          <h3>Product Add</h3>
-          <p>Add products easily with AI-optimized details.</p>
+          <Link to="/add-product" className="feature-card-link">
+            <h3>Product Add</h3>
+            <p>Add products easily with AI-optimized details.</p>
+          </Link>
         </div>
 
         <div className="feature-card">
@@ -69,10 +50,7 @@ const HomePage = () => {
         </div>
       </div>
 
-      {/* Footer */}
-      <footer className="footer">
-        <p>© 2025 Got You • Made for GEN AI Hackathon by Team ❤️</p>
-      </footer>
+      <Footer />
     </div>
   );
 };
