@@ -1,0 +1,114 @@
+.form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 0;
+}
+
+.add-product-form {
+  width: 420px;
+  padding: 25px;
+  border-radius: 20px;
+  backdrop-filter: blur(15px);
+  background: rgba(0, 0, 0, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 25px rgba(0, 255, 100, 0.2);
+  color: #fff;
+  font-family: "Poppins", sans-serif;
+}
+
+.form-title {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #20bf55;
+  font-size: 1.6rem;
+  font-weight: 600;
+  text-shadow: 0px 0px 10px rgba(32, 191, 85, 0.6);
+}
+
+.form-group {
+  margin-bottom: 18px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  margin-bottom: 6px;
+  font-size: 0.9rem;
+  color: #b9f6ca;
+}
+
+.form-group input,
+.form-group textarea {
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  background: rgba(255, 255, 255, 0.1);
+  color: #e0e0e0;
+  font-size: 0.95rem;
+  transition: all 0.3s ease-in-out;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  border: 1px solid #20bf55;
+  box-shadow: 0 0 10px rgba(32, 191, 85, 0.4);
+}
+
+.image-upload .image-box {
+  position: relative;
+  width: 100%;
+  height: 180px;
+  border-radius: 15px;
+  border: 2px dashed rgba(32, 191, 85, 0.6);
+  background: rgba(255, 255, 255, 0.05);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  overflow: hidden;
+  transition: 0.3s;
+}
+
+.image-upload .image-box:hover {
+  background: rgba(32, 191, 85, 0.1);
+}
+
+.image-upload .image-box span {
+  color: #b9f6ca;
+  font-size: 0.95rem;
+}
+
+.image-upload .image-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.image-upload input {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 12px;
+  margin-top: 15px;
+  background: linear-gradient(135deg, #20bf55, #01baef);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0px 4px 15px rgba(32, 191, 85, 0.5);
+}

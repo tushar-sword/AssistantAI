@@ -1,0 +1,35 @@
+.product-add-page {
+  min-height: 100vh;
+  width: 100%;
+  background: linear-gradient(135deg, #001a00, #002d1a);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 60px 20px 100px;
+  color: #e0ffe0;
+}
+
+.page-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.page-header h1 {
+  font-size: 2.5rem;
+  font-weight: 600;
+  background: linear-gradient(90deg, #00ff99, #00ffaa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 10px;
+}
+
+.page-header p {
+  font-size: 1rem;
+  color: #a0f0c0;
+  opacity: 0.9;
+}
+
+.form-wrapper {
+  width: 100%;
+  max-width: 600px;
+}
