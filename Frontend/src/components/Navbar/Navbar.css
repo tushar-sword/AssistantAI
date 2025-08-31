@@ -15,6 +15,13 @@
   font-size: 1.5rem;
   font-weight: bold;
   color: #00ff99;
+  cursor: pointer;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.logo:hover {
+  color: #00ffaa;
+  text-shadow: 0 0 10px rgba(0, 255, 170, 0.8);
 }
 
 .nav-links {
@@ -26,10 +33,61 @@
 .nav-links li a {
   color: #e0ffe0;
   text-decoration: none;
-  transition: color 0.3s;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
   font-weight: 500;
 }
 
 .nav-links li a:hover {
   color: #00ff99;
+  text-shadow: 0 0 8px rgba(0, 255, 153, 0.7);
+}
+
+/* ===== Auth Buttons Styling ===== */
+.auth-section {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.auth-section button {
+  padding: 8px 16px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(6px);
+}
+
+/* Login Button */
+.login-btn {
+  background: rgba(0, 255, 127, 0.12);
+  color: #00ff7f;
+  border: 1px solid rgba(0, 255, 127, 0.4);
+}
+.login-btn:hover {
+  background: rgba(0, 255, 127, 0.22);
+  box-shadow: 0 0 10px rgba(0, 255, 127, 0.6);
+}
+
+/* Profile Button */
+.profile-btn {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+.profile-btn:hover {
+  background: rgba(255, 255, 255, 0.18);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+/* Logout Button */
+.logout-btn {
+  background: rgba(255, 0, 0, 0.15);
+  color: #ff6b6b;
+  border: 1px solid rgba(255, 0, 0, 0.4);
+}
+.logout-btn:hover {
+  background: rgba(255, 0, 0, 0.25);
+  box-shadow: 0 0 10px rgba(255, 80, 80, 0.6);
 }

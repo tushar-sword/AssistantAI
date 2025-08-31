@@ -10,10 +10,10 @@ const ProductAddPage = () => {
       <Navbar />
     <div className="product-add-page">
       
-      <div className="page-header">
+      {/* <div className="page-header">
         <h1>Add New Product</h1>
         <p>Fill in the details below to add your product to the store</p>
-      </div>
+      </div> */}
 
       <div className="form-wrapper">
         <AddproductForm />
