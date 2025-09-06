@@ -88,7 +88,8 @@
 }
 
 .buy-btn,
-.add-cart-btn {
+.add-cart-btn,
+.enhance-ai-btn {
   flex: 1;
   padding: 1rem 0;
   border: none;
@@ -112,6 +113,11 @@
 .add-cart-btn {
   background-color: #ffca28;
   color: black;
+}
+
+.enhance-ai-btn {
+  background-color: #ff6f00;
+  color: white;
 }
 
 .add-cart-btn:hover {

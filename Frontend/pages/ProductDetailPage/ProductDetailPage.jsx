@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { fetchProductById } from "../../src/Redux/productSlice";
+import {
+  fetchProductById,
+  enhanceProductImage,
+} from "../../src/Redux/productSlice";
 import Navbar from "../../src/components/Navbar/Navbar";
 import Footer from "../../src/components/Footer/Footer";
 import "./ProductDetailPage.css";
@@ -9,21 +12,33 @@ import "./ProductDetailPage.css";
 const ProductDetailPage = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const { selectedProduct: product, isLoading, isError, message } = useSelector(
-    (state) => state.products
-  );
+  const {
+    selectedProduct: product,
+    isLoading,
+    isError,
+    message,
+  } = useSelector((state) => state.products);
 
   const [mainImage, setMainImage] = useState("");
 
+  // ✅ Fetch product by ID
   useEffect(() => {
     dispatch(fetchProductById(id));
   }, [dispatch, id]);
 
+  // ✅ Set main image initially
   useEffect(() => {
     if (product?.images?.length > 0) {
       setMainImage(product.images[0].url);
     }
   }, [product]);
+
+  // ✅ Handle AI Enhancement
+  const handleEnhance = () => {
+    if (product?._id) {
+      dispatch(enhanceProductImage(product._id));
+    }
+  };
 
   if (isLoading) return <p className="loading">Loading product...</p>;
   if (isError) return <p className="error">{message}</p>;
@@ -49,6 +64,18 @@ const ProductDetailPage = () => {
           <div className="main-image">
             <img src={mainImage} alt={product.name} />
           </div>
+
+          {/* ✅ Show Enhanced Image if available */}
+          {product.enhancedImage && (
+            <div className="enhanced-image-section">
+              <h4>✨ AI Enhanced Image</h4>
+              <img
+                src={product.enhancedImage}
+                alt="AI Enhanced"
+                className="enhanced-image"
+              />
+            </div>
+          )}
         </div>
 
         {/* Right Side - Product Info */}
@@ -61,6 +88,9 @@ const ProductDetailPage = () => {
           <div className="button-row">
             <button className="buy-btn">Buy Now</button>
             <button className="add-cart-btn">Add to Cart</button>
+            <button className="enhance-ai-btn" onClick={handleEnhance}>
+              Enhance AI💡
+            </button>
           </div>
         </div>
       </div>

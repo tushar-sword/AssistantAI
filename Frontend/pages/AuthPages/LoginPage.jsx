@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "../../src/Redux/authSlice"; // adjust path if needed
+import { login } from "../../src/Redux/authSlice"; 
 import { useNavigate, Link } from "react-router-dom";
 import "./AuthPages.css";
 
