@@ -21,7 +21,7 @@ const vertex = new VertexAI({
   project: process.env.GCP_PROJECT_ID,
   location: process.env.GCP_LOCATION,
 });
-const imagen = vertex.getGenerativeModel({ model: "imagen-3.0" });
+const imagen = vertex.getGenerativeModel({ model: "imagen-3.0-generate-001" });
 
 /**
  * Enhance all product images and store original-enhanced pairs
