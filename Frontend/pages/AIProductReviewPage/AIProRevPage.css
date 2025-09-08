@@ -1,0 +1,36 @@
+.ai-review-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #000000, #013220);
+  color: #e0ffe0;
+  padding: 60px 100px;
+  font-family: "Poppins", sans-serif;
+}
+
+.ai-review-title {
+  text-align: center;
+  font-size: 2rem;
+  color: #00ff99;
+  margin-bottom: 40px;
+}
+
+.ai-product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 30px;
+}
+
+.loading,
+.error,
+.no-products {
+  text-align: center;
+  margin-top: 30px;
+  font-size: 1.1rem;
+}
+
+.error {
+  color: #ff6b6b;
+}
+
+.no-products {
+  color: #b8ffc8;
+}
