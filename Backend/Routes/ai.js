@@ -1,20 +1,30 @@
 // routes/ai.js
 const express = require("express");
-const { v2: cloudinary } = require("cloudinary");
+const fs = require("fs");
+const path = require("path");
 const Product = require("../models/product.js");
 const AiEnhancement = require("../models/AiEnhancement.js");
 
-const router = express.Router();
+// Google Gemini
+const { GoogleGenAI, Modality } = require("@google/genai");
 
-// Cloudinary config
+// Cloudinary
+const { v2: cloudinary } = require("cloudinary");
+
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
+const router = express.Router();
+
+const ai = new GoogleGenAI({
+  apiKey: process.env.GEMINI_API_KEY, // ✅ apni key env me rakho
+});
+
 /**
- * Enhance all product images using Cloudinary transformations
+ * Enhance all product images using Gemini + upload to Cloudinary
  */
 router.post("/enhance-image/:id", async (req, res) => {
   try {
@@ -34,22 +44,57 @@ router.post("/enhance-image/:id", async (req, res) => {
     for (const img of product.images) {
       console.log("🔄 Processing image:", img);
 
-      // Cloudinary transformation (auto enhance + background cleanup + sharpen)
-      const enhancedUrl = cloudinary.url(img.public_id, {
-        transformation: [
-          { quality: "auto", fetch_format: "auto" }, // best quality/format
-          { effect: "improve" },                     // auto-enhance lighting/colors
-          { effect: "sharpen" },                     // sharpen details
-          { background: "white", crop: "pad" },      // clean background (pad to white)
-        ],
-        secure: true,
+      // Image ko local download karna (agar sirf URL hai)
+      const imageUrl = img.url || img;
+      const response = await fetch(imageUrl);
+      const buffer = Buffer.from(await response.arrayBuffer());
+      const base64Image = buffer.toString("base64");
+
+      // Prompt define karo
+      const prompt = [
+        { text: "Enhance this product image: improve lighting, sharpen details, and black background." },
+        {
+          inlineData: {
+            mimeType: "image/png", // ya "image/jpeg" depending on input
+            data: base64Image,
+          },
+        },
+      ];
+
+      // Gemini se enhanced image generate
+      const geminiResponse = await ai.models.generateContent({
+        model: "gemini-2.5-flash-image-preview",
+        contents: prompt,
       });
 
-      console.log("☁️ Generated enhanced Cloudinary URL:", enhancedUrl);
+      let cloudinaryUrl = null;
+
+      for (const part of geminiResponse.candidates[0].content.parts) {
+        if (part.inlineData) {
+          const enhancedBuffer = Buffer.from(part.inlineData.data, "base64");
+
+          // ✅ Upload directly to Cloudinary
+          cloudinaryUrl = await new Promise((resolve, reject) => {
+            const uploadStream = cloudinary.uploader.upload_stream(
+              { folder: "gemini-enhanced" },
+              (error, result) => {
+                if (error) {
+                  console.error("❌ Cloudinary upload error:", error);
+                  reject(error);
+                } else {
+                  console.log("☁️ Uploaded to Cloudinary:", result.secure_url);
+                  resolve(result.secure_url);
+                }
+              }
+            );
+            uploadStream.end(enhancedBuffer);
+          });
+        }
+      }
 
       enhancedPairs.push({
-        original: img.url || img, // fallback if only url is stored
-        enhanced: enhancedUrl,
+        original: imageUrl,
+        enhanced: cloudinaryUrl,
       });
     }
 
