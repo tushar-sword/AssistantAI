@@ -8,10 +8,10 @@ export const addProduct = createAsyncThunk(
   "products/add",
   async (productData, thunkAPI) => {
     try {
-      const token = thunkAPI.getState().auth.user?.token; // grab token from auth state
+      const token = thunkAPI.getState().auth.user?.token;
       const config = {
         headers: {
-          "Content-Type": "multipart/form-data", // ✅ required for file upload
+          "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,
         },
       };
@@ -56,7 +56,7 @@ export const fetchProductById = createAsyncThunk(
   }
 );
 
-// 👉 Enhance Product Image
+// 👉 Enhance Product Images (AI)
 export const enhanceProductImage = createAsyncThunk(
   "products/enhanceImage",
   async (id, thunkAPI) => {
@@ -68,14 +68,13 @@ export const enhanceProductImage = createAsyncThunk(
         },
       };
 
-      // 🔥 Call your AI backend route
       const res = await axios.post(
         `http://localhost:5000/api/ai/enhance-image/${id}`,
         {},
         config
       );
 
-      return res.data; // expect { enhancedImageUrl: "..." }
+      return res.data; // expected { productId, enhancedImages: [...] }
     } catch (error) {
       return thunkAPI.rejectWithValue(
         error.response?.data?.message || "Failed to enhance image"
@@ -154,9 +153,16 @@ const productSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
 
-        if (state.selectedProduct) {
-          // save enhanced image in product
-          state.selectedProduct.enhancedImage = action.payload.enhancedImageUrl;
+        const { productId, enhancedImages } = action.payload;
+
+        // ✅ Update the product inside items[]
+        state.items = state.items.map((item) =>
+          item._id === productId ? { ...item, enhancedImages } : item
+        );
+
+        // ✅ Update selectedProduct if it matches
+        if (state.selectedProduct && state.selectedProduct._id === productId) {
+          state.selectedProduct.enhancedImages = enhancedImages;
         }
       })
       .addCase(enhanceProductImage.rejected, (state, action) => {
