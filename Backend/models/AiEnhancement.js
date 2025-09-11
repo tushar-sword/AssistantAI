@@ -7,38 +7,50 @@ const aiEnhancementSchema = new mongoose.Schema(
       ref: "Product",
       required: true,
     },
+
+    // Enhanced Images
     enhancedImages: [
       {
         original: { type: String, required: true },
         enhanced: { type: String, required: true },
       },
     ],
-    suggestedTitles: [
-      {
-        type: String,
-      },
-    ],
-    suggestedDescriptions: [
-      {
-        type: String,
-      },
-    ],
-    suggestedPrices: [
-      {
-        type: Number, 
-      },
-    ],
-    suggestedTags: [
-      {
-        type: String,
-      },
-    ],
+
+    // Other AI suggestions
+    suggestedTitles: [String],
+    suggestedDescriptions: [String],
+    suggestedPrices: [Number],
+    suggestedTags: [String],
+
+    // Structured Suggestion Box
     suggestionsBox: {
       platforms: [String],
-      costTips: [String],
-      audience: [String],
-      variants: [String],
-      promotion: [String],
+      targetAudience: [String],
+      geoMarkets: [String],
+      seasonalDemand: [String],
+      festivals: [String],
+      giftingOccasions: [String],
+      marketingChannels: [String],
+      contentIdeas: [String],
+      influencerMatch: [String],
+      hashtags: [String],
+      collaborationTips: [String],
+      crossSellUpsell: [String],
+      packagingIdeas: [String],
+      customerRetention: [String],
+      sustainabilityTips: [String],
+      costCuttingTips: [String],
+      competitorInsights: [String],
+      currentTrends: [String],
+      emotionalTriggers: [String],
+      colorPsychology: [String],
+      causeMarketing: [String],
+    },
+
+    // 🔑 Fallback field in case JSON parse fails
+    rawSuggestionsText: {
+      type: String,
+      default: "",
     },
   },
   { timestamps: true }
