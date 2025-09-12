@@ -56,33 +56,6 @@ export const fetchProductById = createAsyncThunk(
   }
 );
 
-// 👉 Enhance Product Images (AI)
-export const enhanceProductImage = createAsyncThunk(
-  "products/enhanceImage",
-  async (id, thunkAPI) => {
-    try {
-      const token = thunkAPI.getState().auth.user?.token;
-      const config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      };
-
-      const res = await axios.post(
-        `http://localhost:5000/api/ai/enhance-image/${id}`,
-        {},
-        config
-      );
-
-      return res.data; // expected { productId, enhancedImages: [...] }
-    } catch (error) {
-      return thunkAPI.rejectWithValue(
-        error.response?.data?.message || "Failed to enhance image"
-      );
-    }
-  }
-);
-
 const productSlice = createSlice({
   name: "products",
   initialState: {
@@ -140,35 +113,6 @@ const productSlice = createSlice({
         state.selectedProduct = action.payload;
       })
       .addCase(fetchProductById.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isError = true;
-        state.message = action.payload;
-      })
-
-      // ENHANCE IMAGE
-      .addCase(enhanceProductImage.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(enhanceProductImage.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.isSuccess = true;
-
-        const { productId, enhancedImages } = action.payload;
-
-        // ✅ Update the product inside items[]
-        state.items = state.items.map((item) =>
-          item._id === productId
-            ? { ...item, enhancedImages: enhancedImages || item.enhancedImages }
-            : item
-        );
-
-        // ✅ Update selectedProduct if it matches
-        if (state.selectedProduct && state.selectedProduct._id === productId) {
-          state.selectedProduct.enhancedImages =
-            enhancedImages || state.selectedProduct.enhancedImages;
-        }
-      })
-      .addCase(enhanceProductImage.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;

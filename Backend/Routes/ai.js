@@ -2,7 +2,7 @@
 const express = require("express");
 const Product = require("../models/product.js");
 const AiEnhancement = require("../models/AiEnhancement.js");
-
+const { jsonrepair } = require("jsonrepair");
 // Google Gemini
 const { GoogleGenAI } = require("@google/genai");
 
@@ -48,12 +48,27 @@ function safeParseJSON(text) {
     if (match) {
       cleaned = match[0];
     }
-
-    return JSON.parse(cleaned);
+    const repaired = jsonrepair(cleaned);
+    return JSON.parse(repaired);
   } catch (err) {
     console.error("❌ JSON parse failed, returning empty object:", err.message);
     return {};
   }
+}
+function normalizeSuggestions(suggestions) {
+  const normalized = {};
+  for (const [key, value] of Object.entries(suggestions)) {
+    if (Array.isArray(value)) {
+      normalized[key] = value.map((v) =>
+        typeof v === "object" ? JSON.stringify(v) : String(v)
+      );
+    } else if (typeof value === "object") {
+      normalized[key] = [JSON.stringify(value)];
+    } else {
+      normalized[key] = [String(value)];
+    }
+  }
+  return normalized;
 }
 
 /**
@@ -178,6 +193,8 @@ router.post("/enhance-image/:id", async (req, res) => {
           rawSuggestions = suggestionText;
 
           suggestions = safeParseJSON(suggestionText);
+          suggestions = normalizeSuggestions(suggestions);
+          console.log("💡 Suggestions generated:", suggestions);
         } catch (err) {
           console.error("❌ Gemini suggestion failed:", err.message);
           suggestions = {};

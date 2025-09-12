@@ -27,7 +27,7 @@ const aiEnhancementSchema = new mongoose.Schema(
       platforms: [String],
       targetAudience: [String],
       geoMarkets: [String],
-      seasonalDemand: [String],
+      seasonalDemand: [{}],
       festivals: [String],
       giftingOccasions: [String],
       marketingChannels: [String],

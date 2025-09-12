@@ -6,6 +6,7 @@ const connectDB = require("./config/db.js");
 const userRoutes = require("./Routes/userRoutes.js");
 const productRoutes = require("./Routes/productRoutes.js");
 const aiRoutes = require("./Routes/ai.js");
+const aiGetRoutes = require("./Routes/aiGet.js");
 
 dotenv.config();
 connectDB();
@@ -26,7 +27,7 @@ app.get("/", (req, res) => {
 app.use("/api/users", userRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/ai", aiRoutes);
-
+app.use("/api/ai", aiGetRoutes);
 app.listen(PORT, () =>
   console.log(`Server running on http://localhost:${PORT}`)
 );
