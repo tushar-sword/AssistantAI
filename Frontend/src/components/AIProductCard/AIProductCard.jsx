@@ -2,11 +2,11 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./AIProductCard.css";
 
-const AIProductCard = ({ product }) => {
-  // ✅ pick enhanced image first, fallback to original
+const AIProductCard = ({ product, aiEnhancement }) => {
+  // ✅ Prefer AI enhanced image, fallback to original
   const imageUrl =
-    product.enhancedImages?.length > 0
-      ? product.enhancedImages[0].enhanced
+    aiEnhancement?.enhancedImages?.length > 0
+      ? aiEnhancement.enhancedImages[0].enhanced
       : product.images?.[0]?.url;
 
   return (
@@ -18,7 +18,7 @@ const AIProductCard = ({ product }) => {
         <h3>{product.name}</h3>
         <p className="price">₹{product.price}</p>
         <p className="category">{product.category}</p>
-        {product.enhancedImages?.length > 0 && (
+        {aiEnhancement?.enhancedImages?.length > 0 && (
           <p className="ai-label">✨ AI Enhanced</p>
         )}
       </div>
