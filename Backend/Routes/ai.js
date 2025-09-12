@@ -18,10 +18,10 @@ cloudinary.config({
 const router = express.Router();
 
 const ai = new GoogleGenAI({
-  apiKey: process.env.GEMINI_API_KEY, // ✅ keep in env
+  apiKey: process.env.GEMINI_API_KEY, // ✅ from env
 });
 
-// 🔄 Retry helper for Gemini API calls
+// 🔄 Retry helper
 async function callGeminiWithRetry(fn, retries = 3, delay = 2000) {
   for (let i = 0; i < retries; i++) {
     try {
@@ -37,24 +37,21 @@ async function callGeminiWithRetry(fn, retries = 3, delay = 2000) {
   }
 }
 
-// 🧹 Clean & extract JSON safely
+// 🧹 JSON repair helper
 function safeParseJSON(text) {
   try {
-    // remove markdown fences
     let cleaned = text.replace(/```json/g, "").replace(/```/g, "").trim();
-
-    // extract JSON inside if extra text is around
     const match = cleaned.match(/\{[\s\S]*\}/);
-    if (match) {
-      cleaned = match[0];
-    }
+    if (match) cleaned = match[0];
     const repaired = jsonrepair(cleaned);
     return JSON.parse(repaired);
   } catch (err) {
-    console.error("❌ JSON parse failed, returning empty object:", err.message);
+    console.error("❌ JSON parse failed:", err.message);
     return {};
   }
 }
+
+// 🔄 Normalize suggestions format
 function normalizeSuggestions(suggestions) {
   const normalized = {};
   for (const [key, value] of Object.entries(suggestions)) {
@@ -72,7 +69,7 @@ function normalizeSuggestions(suggestions) {
 }
 
 /**
- * Enhance product images + generate AI suggestions (single route)
+ * Enhance product images + generate AI suggestions
  */
 router.post("/enhance-image/:id", async (req, res) => {
   try {
@@ -89,25 +86,31 @@ router.post("/enhance-image/:id", async (req, res) => {
 
     const enhancedPairs = [];
     let suggestions = null;
-    let rawSuggestions = ""; // 🔑 fallback raw text
+    let rawSuggestions = "";
 
     for (const img of product.images) {
       console.log("🔄 Processing image:", img);
 
-      // Image download
+      // Download image
       const imageUrl = img.url || img;
       const response = await fetch(imageUrl);
       const buffer = Buffer.from(await response.arrayBuffer());
       const base64Image = buffer.toString("base64");
 
       /**
-       * 1️⃣ Enhance Image
+       * 1️⃣ Try Gemini enhancement (optional, may fail)
        */
       const promptEnhance = [
-        { text: "Enhance this product image: improve lighting, sharpen details, and black background." },
+        {
+          text: `Enhance this product image:
+          - improve lighting
+          - sharpen details
+          - black background
+          ⚠️ Return ONLY an enhanced image in base64 format (no text).`,
+        },
         {
           inlineData: {
-            mimeType: "image/png", // or jpeg if needed
+            mimeType: "image/png",
             data: base64Image,
           },
         },
@@ -128,30 +131,60 @@ router.post("/enhance-image/:id", async (req, res) => {
 
       let cloudinaryUrl = null;
 
-      if (geminiResponse) {
-        for (const part of geminiResponse.candidates[0].content.parts) {
-          if (part.inlineData) {
-            const enhancedBuffer = Buffer.from(part.inlineData.data, "base64");
+if (geminiResponse) {
+  let foundImage = false;
 
-            // ✅ Upload directly to Cloudinary
-            cloudinaryUrl = await new Promise((resolve, reject) => {
-              const uploadStream = cloudinary.uploader.upload_stream(
-                { folder: "gemini-enhanced" },
-                (error, result) => {
-                  if (error) {
-                    console.error("❌ Cloudinary upload error:", error);
-                    reject(error);
-                  } else {
-                    console.log("☁️ Uploaded to Cloudinary:", result.secure_url);
-                    resolve(result.secure_url);
-                  }
-                }
-              );
-              uploadStream.end(enhancedBuffer);
-            });
+  for (const part of geminiResponse.candidates[0].content.parts) {
+    // 1. Agar Gemini ne inlineData diya
+    if (part.inlineData?.data) {
+      foundImage = true;
+      const enhancedBuffer = Buffer.from(part.inlineData.data, "base64");
+
+      cloudinaryUrl = await new Promise((resolve, reject) => {
+        const uploadStream = cloudinary.uploader.upload_stream(
+          { folder: "gemini-enhanced" },
+          (error, result) => {
+            if (error) return reject(error);
+            console.log("☁️ Uploaded to Cloudinary:", result.secure_url);
+            resolve(result.secure_url);
           }
-        }
-      }
+        );
+        uploadStream.end(enhancedBuffer);
+      });
+    }
+
+    // 2. Agar Gemini ne galti se base64 string text ke andar diya
+    else if (part.text && /^[A-Za-z0-9+/=]+$/.test(part.text.trim())) {
+      foundImage = true;
+      console.log("⚠️ Gemini returned base64 as text, fixing...");
+      const enhancedBuffer = Buffer.from(part.text.trim(), "base64");
+
+      cloudinaryUrl = await new Promise((resolve, reject) => {
+        const uploadStream = cloudinary.uploader.upload_stream(
+          { folder: "gemini-enhanced" },
+          (error, result) => {
+            if (error) return reject(error);
+            console.log("☁️ Uploaded to Cloudinary:", result.secure_url);
+            resolve(result.secure_url);
+          }
+        );
+        uploadStream.end(enhancedBuffer);
+      });
+    }
+  }
+
+  // agar image nahi mili to fallback
+  if (!foundImage || !cloudinaryUrl) {
+    cloudinaryUrl = cloudinary.url(imageUrl, {
+      effect: "improve",
+      quality: "auto",
+      background: "black",
+      crop: "pad",
+    });
+    console.log("✨ Used Cloudinary fallback:", cloudinaryUrl);
+  }
+}
+
 
       enhancedPairs.push({
         original: imageUrl,
@@ -159,7 +192,7 @@ router.post("/enhance-image/:id", async (req, res) => {
       });
 
       /**
-       * 2️⃣ Generate Suggestions (only once, use first image as reference)
+       * 3️⃣ Generate Suggestions (only once, use first image as reference)
        */
       if (!suggestions) {
         const promptForSuggestions = [
@@ -205,10 +238,10 @@ router.post("/enhance-image/:id", async (req, res) => {
     // Save both enhanced images + suggestions + raw text
     const enhancement = await AiEnhancement.findOneAndUpdate(
       { productId: product._id },
-      { 
-        enhancedImages: enhancedPairs, 
+      {
+        $push: { enhancedImages: { $each: enhancedPairs } }, // ✅ append instead of overwrite
         suggestionsBox: suggestions,
-        rawSuggestionsText: rawSuggestions // ✅ keep raw output
+        rawSuggestionsText: rawSuggestions,
       },
       { upsert: true, new: true }
     );
