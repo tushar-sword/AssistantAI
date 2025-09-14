@@ -1,3 +1,4 @@
+// src/Redux/productSlice.js
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
@@ -56,25 +57,23 @@ export const fetchProductById = createAsyncThunk(
   }
 );
 
-// 👉 Enhance Product Images (AI)
+// 👉 Enhance Product Images (AI) from ProductDetailsPage
 export const enhanceProductImage = createAsyncThunk(
   "products/enhanceImage",
   async (id, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.user?.token;
       const config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
       };
 
       const res = await axios.post(
-        `http://localhost:5000/api/ai/enhance-image/${id}`,
+        `http://localhost:5000/api/ai/enhance-image/${id}`, // ✅ FIXED ROUTE
         {},
         config
       );
 
-      return res.data; // expected { productId, enhancedImages: [...] }
+      return res.data; // { productId, enhancedImages }
     } catch (error) {
       return thunkAPI.rejectWithValue(
         error.response?.data?.message || "Failed to enhance image"
@@ -155,17 +154,14 @@ const productSlice = createSlice({
 
         const { productId, enhancedImages } = action.payload;
 
-        // ✅ Update the product inside items[]
+        // update inside items
         state.items = state.items.map((item) =>
-          item._id === productId
-            ? { ...item, enhancedImages: enhancedImages || item.enhancedImages }
-            : item
+          item._id === productId ? { ...item, enhancedImages } : item
         );
 
-        // ✅ Update selectedProduct if it matches
+        // update selectedProduct
         if (state.selectedProduct && state.selectedProduct._id === productId) {
-          state.selectedProduct.enhancedImages =
-            enhancedImages || state.selectedProduct.enhancedImages;
+          state.selectedProduct.enhancedImages = enhancedImages;
         }
       })
       .addCase(enhanceProductImage.rejected, (state, action) => {

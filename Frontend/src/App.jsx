@@ -8,6 +8,7 @@ import ProductReviewPage from "../pages/ProductReviewPage/ProductReviewPage";
 import AIProRevPage from "../pages/AIProductReviewPage/AIProRevPage";
 import AIContentPage from "../pages/AIContentPage/AIContentPage";
 import ProductDetailPage from "../pages/ProductDetailPage/ProductDetailPage";
+import AIProductDetailPage from "../pages/AIProductDetailPage/AIProductDetailPage"; // ✅ add import
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/ai-product-review" element={<AIProRevPage />} />
         <Route path="/ai-content" element={<AIContentPage />} />
         <Route path="/products/:id" element={<ProductDetailPage />} />
+        <Route path="/ai-products/:id" element={<AIProductDetailPage />} /> {/* ✅ new route */}
       </Routes>
     </Router>
   );
