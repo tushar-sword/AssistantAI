@@ -1,3 +1,4 @@
+// src/Redux/aiProductSlice.js
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
@@ -33,17 +34,13 @@ export const fetchAiProductById = createAsyncThunk(
   }
 );
 
-// 👉 Enhance Product Images
-export const enhanceProductImage = createAsyncThunk(
+// 👉 Enhance Product Images (from AiProductDetailsPage)
+export const enhanceAiProductImage = createAsyncThunk(
   "aiProducts/enhanceImage",
   async (id, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.user?.token;
-      const config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      };
+      const config = { headers: { Authorization: `Bearer ${token}` } };
 
       const res = await axios.post(
         `${AI_API_URL}/enhance-image/${id}`,
@@ -51,10 +48,33 @@ export const enhanceProductImage = createAsyncThunk(
         config
       );
 
-      return res.data; // expected { productId, enhancedImages: [...] }
+      return res.data; // { productId, enhancedImages }
     } catch (error) {
       return thunkAPI.rejectWithValue(
-        error.response?.data?.message || "Failed to enhance image"
+        error.response?.data?.message || "Failed to enhance AI product image"
+      );
+    }
+  }
+);
+
+// 👉 Generate AI Suggestions (from AiProductDetailsPage)
+export const generateAiSuggestions = createAsyncThunk(
+  "aiProducts/generateSuggestions",
+  async (id, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user?.token;
+      const config = { headers: { Authorization: `Bearer ${token}` } };
+
+      const res = await axios.post(
+        `${AI_API_URL}/generate-suggestions/${id}`,
+        {},
+        config
+      );
+
+      return res.data; // { productId, suggestions: [...] }
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || "Failed to generate suggestions"
       );
     }
   }
@@ -79,7 +99,7 @@ const aiProductSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // FETCH ALL AI PRODUCTS
+      // FETCH ALL
       .addCase(fetchAiProducts.pending, (state) => {
         state.isLoading = true;
       })
@@ -93,7 +113,7 @@ const aiProductSlice = createSlice({
         state.message = action.payload;
       })
 
-      // FETCH AI PRODUCT BY ID
+      // FETCH BY ID
       .addCase(fetchAiProductById.pending, (state) => {
         state.isLoading = true;
       })
@@ -108,16 +128,16 @@ const aiProductSlice = createSlice({
       })
 
       // ENHANCE IMAGE
-      .addCase(enhanceProductImage.pending, (state) => {
+      .addCase(enhanceAiProductImage.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(enhanceProductImage.fulfilled, (state, action) => {
+      .addCase(enhanceAiProductImage.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
 
         const { productId, enhancedImages } = action.payload;
 
-        // ✅ Update items[]
+        // update in items
         state.items = state.items.map((item) =>
           item.product?._id === productId
             ? {
@@ -130,7 +150,7 @@ const aiProductSlice = createSlice({
             : item
         );
 
-        // ✅ Update selectedAiProduct if it matches
+        // update selected product
         if (state.selectedAiProduct?.product?._id === productId) {
           state.selectedAiProduct.aiEnhancement = {
             ...(state.selectedAiProduct.aiEnhancement || {}),
@@ -138,7 +158,44 @@ const aiProductSlice = createSlice({
           };
         }
       })
-      .addCase(enhanceProductImage.rejected, (state, action) => {
+      .addCase(enhanceAiProductImage.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+
+      // GENERATE SUGGESTIONS
+      .addCase(generateAiSuggestions.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(generateAiSuggestions.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+
+        const { productId, suggestions } = action.payload;
+
+        // update in items
+        state.items = state.items.map((item) =>
+          item.product?._id === productId
+            ? {
+                ...item,
+                aiEnhancement: {
+                  ...(item.aiEnhancement || {}),
+                  suggestions,
+                },
+              }
+            : item
+        );
+
+        // update selected product
+        if (state.selectedAiProduct?.product?._id === productId) {
+          state.selectedAiProduct.aiEnhancement = {
+            ...(state.selectedAiProduct.aiEnhancement || {}),
+            suggestions,
+          };
+        }
+      })
+      .addCase(generateAiSuggestions.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
