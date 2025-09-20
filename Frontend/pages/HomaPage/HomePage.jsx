@@ -25,28 +25,38 @@ const HomePage = () => {
         </div>
 
         <div className="feature-card">
+          <Link to="/product-review" className="feature-card-link">
           <h3>Product Review</h3>
           <p>Collect reviews to boost your product quality.</p>
+          </Link>
         </div>
 
         <div className="feature-card">
+          <Link to="/ai-product-review" className="feature-card-link">
           <h3>AI Product Review</h3>
           <p>Smart AI analysis of customer feedback.</p>
+          </Link>
         </div>
 
         <div className="feature-card">
+          <Link to="/ai-product-review" className="feature-card-link">
           <h3>Suggestion</h3>
           <p>AI-driven tips to grow faster and smarter.</p>
+          </Link>
         </div>
 
         <div className="feature-card">
+          <Link to="/ai-content" className="feature-card-link">
           <h3>AI Content</h3>
           <p>Instantly create blogs & product posts.</p>
+          </Link>
         </div>
 
         <div className="feature-card">
+          <Link to="/ai-story" className="feature-card-link">
           <h3>AI Story</h3>
           <p>Build stories that connect with customers.</p>
+          </Link>
         </div>
       </div>
 

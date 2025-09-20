@@ -71,7 +71,7 @@ export const generateAiSuggestions = createAsyncThunk(
         config
       );
 
-      return res.data; // { productId, suggestions: [...] }
+      return res.data; // { productId, suggestionsBox or suggestions }
     } catch (error) {
       return thunkAPI.rejectWithValue(
         error.response?.data?.message || "Failed to generate suggestions"
@@ -164,7 +164,7 @@ const aiProductSlice = createSlice({
         state.message = action.payload;
       })
 
-      // GENERATE SUGGESTIONS
+      // GENERATE SUGGESTIONS (UPDATED)
       .addCase(generateAiSuggestions.pending, (state) => {
         state.isLoading = true;
       })
@@ -172,7 +172,10 @@ const aiProductSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
 
-        const { productId, suggestions } = action.payload;
+        const { productId } = action.payload;
+        // prefer suggestionsBox from backend; fallback to suggestions for safety
+        const suggestionsBox =
+          action.payload.suggestionsBox ?? action.payload.suggestions;
 
         // update in items
         state.items = state.items.map((item) =>
@@ -181,7 +184,7 @@ const aiProductSlice = createSlice({
                 ...item,
                 aiEnhancement: {
                   ...(item.aiEnhancement || {}),
-                  suggestions,
+                  suggestionsBox,
                 },
               }
             : item
@@ -191,7 +194,7 @@ const aiProductSlice = createSlice({
         if (state.selectedAiProduct?.product?._id === productId) {
           state.selectedAiProduct.aiEnhancement = {
             ...(state.selectedAiProduct.aiEnhancement || {}),
-            suggestions,
+            suggestionsBox,
           };
         }
       })

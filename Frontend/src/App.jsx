@@ -7,8 +7,9 @@ import ProfilePage from "../pages/ProfilePage/ProfilePage";
 import ProductReviewPage from "../pages/ProductReviewPage/ProductReviewPage";
 import AIProRevPage from "../pages/AIProductReviewPage/AIProRevPage";
 import AIContentPage from "../pages/AIContentPage/AIContentPage";
+import AIProductDetailPage from "../pages/AiProductDetailPage/AiProductDetailPage";
 import ProductDetailPage from "../pages/ProductDetailPage/ProductDetailPage";
-import AIProductDetailPage from "../pages/AIProductDetailPage/AIProductDetailPage"; // ✅ add import
+
 
 function App() {
   return (

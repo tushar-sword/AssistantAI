@@ -85,7 +85,13 @@ const AIProductDetailPage = () => {
       </div>
 
       {/* 🔮 AI Suggestions Section */}
-      <SuggestionBox suggestions={aiProduct?.aiEnhancement?.suggestions} />
+<SuggestionBox
+  suggestionsBox={
+    aiProduct?.aiEnhancement?.suggestionsBox ??
+    aiProduct?.aiEnhancement?.suggestions
+  }
+/>
+
 
       <Footer />
     </>
