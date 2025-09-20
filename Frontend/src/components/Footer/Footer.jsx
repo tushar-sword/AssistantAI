@@ -4,7 +4,7 @@ import "./Footer.css";
 const Footer = () => {
   return (
     <footer className="footer">
-      <p>© 2025 Got You • Made for GEN AI Hackathon by Team ❤️</p>
+      <p>© 2025 AI Marketplace • Made for GEN AI Hackathon by Team ❤️</p>
     </footer>
   );
 };
