@@ -1,41 +1,16 @@
 // models/AiContent.js
 const mongoose = require("mongoose");
 
-const aiContentSchema = new mongoose.Schema(
-  {
-    productId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Product",
-      required: true,
-    },
-
-    // AI-generated content per platform
-    content: {
-      Instagram: {
-        type: Object,
-        default: {},
-      },
-      Facebook: {
-        type: Object,
-        default: {},
-      },
-      WhatsApp: {
-        type: Object,
-        default: {},
-      },
-      Twitter: {
-        type: Object,
-        default: {},
-      },
-    },
-
-    // Raw response text from AI model (fallback)
-    rawText: {
-      type: String,
-      default: "",
-    },
+const AiContentSchema = new mongoose.Schema({
+  productId: { type: mongoose.Schema.Types.ObjectId, ref: "Product", required: true },
+  captions: {
+    instagram: [String],
+    facebook: [String],
+    whatsapp: [String],
   },
-  { timestamps: true }
-);
+  rawResponse: { type: String },
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now },
+});
 
-module.exports = mongoose.model("AiContent", aiContentSchema);
+module.exports = mongoose.model("AiContent", AiContentSchema);
