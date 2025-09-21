@@ -1,22 +1,34 @@
+const dotenv = require("dotenv");
 const express = require("express");
 const cors = require("cors");
-const cookieParser = require("cookie-parser");
+const connectDB = require("./config/db.js");
+
+// Routes
+const userRoutes = require("./Routes/userRoutes.js");
+const productRoutes = require("./Routes/productRoutes.js");
+const aiRoutes = require("./Routes/ai.js");
+const aiGetRoutes = require("./Routes/aiGet.js");
+const aiContentRoutes = require("./Routes/aiContent.js");
+
+dotenv.config();
+connectDB();
 
 const app = express();
 
 // Middleware
 app.use(express.json());
 app.use(cors());
-app.use(cookieParser());
 
-// Routes
+// Test route
 app.get("/", (req, res) => {
-  res.send("Backend is running 🚀");
+  res.send("API is running 🚀");
 });
 
-// Example protected route
-// const { protect } = require("./Middleware/sellerPanelauthMidWar");
-// app.use("/api/products", protect, require("./routes/productInfo.routes"));
+// Routes
+app.use("/api/users", userRoutes);
+app.use("/api/products", productRoutes);
+app.use("/api/ai", aiRoutes);
+app.use("/api/ai", aiGetRoutes);
+app.use("/api/ai-content", aiContentRoutes);
 
-// ✅ Export handler for Vercel
-module.exports = (req, res) => app(req, res);
+module.exports = app; // ✅ only export app
