@@ -1,4 +1,3 @@
-// src/features/auth/authSlice.js
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
@@ -80,7 +79,7 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // LOGIN
+      // LOGIN's extraa 
       .addCase(login.pending, (state) => {
         state.isLoading = true;
       })
@@ -96,7 +95,7 @@ const authSlice = createSlice({
         state.user = null;
       })
 
-      // REGISTER
+      // REGISTER's extraa
       .addCase(register.pending, (state) => {
         state.isLoading = true;
       })

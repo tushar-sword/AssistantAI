@@ -1,4 +1,3 @@
-// src/pages/ContentGenerationPage.jsx
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -66,7 +65,7 @@ const ContentGenerationPage = () => {
     );
   }
 
-  // ✅ Defensive: sometimes only rawText is available
+  //Defensive: sometimes only rawText is available - will update this
   const { content, rawText } = selectedContent;
   const platforms =
     content && typeof content === "object" ? Object.keys(content) : [];

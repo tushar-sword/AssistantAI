@@ -1,4 +1,4 @@
-/* 🔹 Container */
+/*Container */
 .ai-product-detail-container {
   display: flex;
   gap: 3rem;
@@ -11,7 +11,7 @@
   box-shadow: 0 6px 20px rgba(0, 102, 255, 0.3);
 }
 
-/* 🔹 Image Section */
+/*Image Section */
 .ai-image-gallery {
   flex: 1;
   display: flex;
@@ -28,7 +28,7 @@
   border: 2px solid rgba(0, 191, 255, 0.5);
 }
 
-/* 🔹 Product Info */
+/*Product Info */
 .ai-product-info {
   flex: 1;
   color: #d6e9ff;
@@ -39,6 +39,44 @@
   margin-bottom: 1rem;
   color: #00bfff;
   text-shadow: 0 0 10px rgba(0, 191, 255, 0.6);
+}
+
+/* Suggested Titles */
+.ai-suggested-titles {
+  margin-bottom: 1rem;
+  color: #e0f7ff;
+}
+
+.ai-suggested-titles label {
+  margin-right: 0.5rem;
+  font-weight: bold;
+}
+
+.ai-suggested-titles select {
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  border: 1px solid #007bff;
+  background: #001d3d;
+  color: #e0f7ff;
+}
+
+/* Suggested Descriptions */
+.ai-suggested-descriptions {
+  margin-bottom: 1rem;
+  color: #e0f7ff;
+}
+
+.ai-suggested-descriptions label {
+  margin-right: 0.5rem;
+  font-weight: bold;
+}
+
+.ai-suggested-descriptions select {
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  border: 1px solid #007bff;
+  background: #001d3d;
+  color: #e0f7ff;
 }
 
 .ai-price {
@@ -60,7 +98,30 @@
   color: #cfeeff;
 }
 
-/* 🔹 Buttons */
+/* Suggested Tags */
+.ai-tags {
+  margin-bottom: 2rem;
+}
+
+.ai-tag-list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.ai-tag {
+  background: rgba(0, 119, 255, 0.15);
+  padding: 4px 8px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  border: 1px solid rgba(0, 191, 255, 0.3);
+}
+
+/*Buttons */
 .ai-button-row {
   display: flex;
   gap: 1rem;
@@ -79,7 +140,7 @@
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* Buy Now */
+/*Buy Now*/
 .ai-buy-btn {
   background-color: #0077ff;
   color: white;
@@ -89,7 +150,7 @@
   box-shadow: 0 6px 16px rgba(0, 119, 255, 0.5);
 }
 
-/* Add to Cart */
+/*Add-to-Cart */
 .ai-add-cart-btn {
   background-color: #ffd60a;
   color: #000814;
@@ -99,7 +160,7 @@
   box-shadow: 0 6px 16px rgba(255, 214, 10, 0.5);
 }
 
-/* Generate Suggestions */
+/*Generating suggestions */
 .ai-suggestion-btn {
   background-color: #00b4d8;
   color: white;
@@ -109,7 +170,7 @@
   box-shadow: 0 6px 16px rgba(0, 180, 216, 0.6);
 }
 
-/* 🔹 Suggestions Section */
+/*Suggestions section*/
 .ai-suggestion-section {
   margin: 3rem auto;
   max-width: 1000px;
@@ -147,7 +208,7 @@
   background: rgba(0, 119, 255, 0.25);
 }
 
-/* adding download button 20 sep - tushar */
+/* adding download button */
 .ai-download-btn {
   margin-top: 10px;
   padding: 6px 12px;
@@ -185,7 +246,7 @@
   color: green;
 }
 
-/* 📱 Responsive */
+/*Responsive */
 @media (max-width: 900px) {
   .ai-product-detail-container {
     flex-direction: column;

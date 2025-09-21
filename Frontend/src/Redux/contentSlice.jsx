@@ -1,11 +1,10 @@
-// src/Redux/contentSlice.js
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-// ✅ Corrected API base
+
 const CONTENT_API_URL = "http://localhost:5000/api/ai-content";
 
-// 👉 Generate AI Content for a Product
+//Generate AI Content
 export const generateContentForProduct = createAsyncThunk(
   "content/generate",
   async (productId, thunkAPI) => {
@@ -23,8 +22,7 @@ export const generateContentForProduct = createAsyncThunk(
 
       console.log("📥 [Redux] generateContentForProduct response:", res.data);
 
-      // In debug mode, backend returns:
-      // { success: true, message: "Route hit successfully!", product: {...} }
+      
       return res.data;
     } catch (error) {
       console.error("❌ [Redux] generateContentForProduct error:", error);
@@ -35,16 +33,16 @@ export const generateContentForProduct = createAsyncThunk(
   }
 );
 
-// 👉 Fetch content by productId
+//Fetch the content by productid
 export const fetchContentByProductId = createAsyncThunk(
   "content/fetchById",
   async (productId, thunkAPI) => {
     try {
       const res = await axios.get(`${CONTENT_API_URL}/product/${productId}`);
-      console.log("📥 [Redux] fetchContentByProductId response:", res.data);
-      return res.data; // { productId, content }
+      console.log(" [Redux] fetchContentByProductId response:", res.data);
+      return res.data;
     } catch (error) {
-      console.error("❌ [Redux] fetchContentByProductId error:", error);
+      console.error("[Redux] fetchContentByProductId error:", error);
       return thunkAPI.rejectWithValue(
         error.response?.data?.message || "Failed to fetch AI content"
       );
@@ -82,10 +80,9 @@ const contentSlice = createSlice({
         const { productId, content, product } = action.payload;
 
         if (product) {
-          // 🔹 In debug mode, just store product info
           state.selectedContent = { productId: product.id, debugProduct: product };
         } else if (productId && content) {
-          // 🔹 In real AI mode
+        
           state.items = state.items.filter((c) => c.productId !== productId);
           state.items.push({ productId, content });
           state.selectedContent = { productId, content };
@@ -97,7 +94,7 @@ const contentSlice = createSlice({
         state.message = action.payload;
       })
 
-      // Fetch by ID
+      // Fetch by id
       .addCase(fetchContentByProductId.pending, (state) => {
         state.isLoading = true;
       })

@@ -19,7 +19,7 @@ const LoginPage = () => {
     (state) => state.auth
   );
 
-  // Handle input change
+
   const onChange = (e) => {
     setFormData((prev) => ({
       ...prev,
@@ -27,13 +27,13 @@ const LoginPage = () => {
     }));
   };
 
-  // Handle form submit
+  // Handles the form submit
   const onSubmit = (e) => {
     e.preventDefault();
     dispatch(login({ email, password }));
   };
 
-  // Redirect after successful login
+  // Redirect after loginn
   useEffect(() => {
     if (isSuccess || user) {
       navigate("/");

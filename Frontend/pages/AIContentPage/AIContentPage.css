@@ -1,25 +1,25 @@
-/* Page wrapper */
+/* Pagewrapper */
 .ai-content-page {
   min-height: 100vh;
   padding: 60px 80px;
   width: 100%;
-  background: linear-gradient(135deg, #000000, #001a26); /* dark bluish bg */
+  background: linear-gradient(135deg, #000000, #001a26); 
   font-family: "Poppins", sans-serif;
-  color: #fdfce5; /* light yellowish white */
+  color: #fdfce5; 
   box-sizing: border-box;
 }
 
-/* Title */
+/*Title */
 .page-title {
   text-align: center;
   font-size: 2rem;
   font-weight: 600;
   margin-bottom: 40px;
-  color: #ffeb3b; /* neon yellow */
+  color: #ffeb3b; 
   text-shadow: 0 0 10px rgba(255, 235, 59, 0.7), 0 0 20px rgba(255, 235, 59, 0.5);
 }
 
-/* Product cards grid */
+/* Productcards grid */
 .content-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -28,7 +28,7 @@
   box-sizing: border-box;
 }
 
-/* Loading / Error / Empty */
+/*Loading/Error/Empty*/
 .loading,
 .error,
 .no-products {

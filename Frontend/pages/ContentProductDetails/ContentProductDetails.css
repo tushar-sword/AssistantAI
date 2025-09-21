@@ -1,6 +1,5 @@
-/* src/pages/ContentProductDetails/ContentProductDetails.css */
 
-/* Whole page */
+/* For Whole page */
 .content-detail-container {
   min-height: 100vh;
   padding: 80px 60px;
@@ -40,7 +39,7 @@
   backdrop-filter: blur(8px);
 }
 
-/* Image Section */
+/* Image-Section */
 .content-image-gallery {
   flex: 1;
   text-align: center;

@@ -25,9 +25,8 @@ const Navbar = () => {
         <li><Link to="/add-product">Product Add</Link></li>
         <li><Link to="/product-review">Product Review</Link></li>
         <li><Link to="/ai-product-review">AI Product Review</Link></li>
-        <li><Link to="/suggestion">Suggestion</Link></li>
         <li><Link to="/ai-content">AI Content</Link></li>
-        <li><Link to="/ai-story">AI Story</Link></li>
+        {/* <li><Link to="/ai-story">AI Story</Link></li> */}
       </ul>
 
       <div className="auth-section">

@@ -1,53 +1,28 @@
 import React from "react";
-import { useDispatch } from "react-redux";
-import { enhanceProductImage } from "../../Redux/productSlice";
-
+import { Link } from "react-router-dom";
 import "./AIProductCard.css";
 
-const AIProductCard = ({ product }) => {
-  const dispatch = useDispatch();
-
-  const handleEnhance = () => {
-    dispatch(enhanceProductImage(product._id));
-  };
+const AIProductCard = ({ product, aiEnhancement }) => {
+  // ✅ Prefer AI enhanced image, fallback to original
+  const imageUrl =
+    aiEnhancement?.enhancedImages?.length > 0
+      ? aiEnhancement.enhancedImages[0].enhanced
+      : product.images?.[0]?.url;
 
   return (
-    <div className="ai-product-card">
-      <h3 className="ai-product-name">{product.name}</h3>
-
-      {/* If product has AI-enhanced images */}
-      {product.enhancedImages && product.enhancedImages.length > 0 ? (
-        <div className="ai-images-wrapper">
-          {product.enhancedImages.map((pair, index) => (
-            <div key={index} className="ai-image-pair">
-              <div className="ai-image-block">
-                <img
-                  src={pair.original}
-                  alt="Original"
-                  className="ai-product-img"
-                />
-                <p className="ai-label">Original</p>
-              </div>
-              <div className="ai-image-block">
-                <img
-                  src={pair.enhanced}
-                  alt="Enhanced"
-                  className="ai-product-img"
-                />
-                <p className="ai-label">Enhanced</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      ) : (
-        <div className="no-enhancement">
-          <p>No AI enhancement available</p>
-          <button className="ai-enhance-btn" onClick={handleEnhance}>
-            Enhance Now
-          </button>
-        </div>
-      )}
-    </div>
+    <Link to={`/ai-products/${product._id}`} className="ai-product-card">
+      <div className="ai-product-image">
+        <img src={imageUrl} alt={product.name} />
+      </div>
+      <div className="ai-product-info">
+        <h3>{product.name}</h3>
+        <p className="price">₹{product.price}</p>
+        <p className="category">{product.category}</p>
+        {aiEnhancement?.enhancedImages?.length > 0 && (
+          <p className="ai-label">✨ AI Enhanced</p>
+        )}
+      </div>
+    </Link>
   );
 };
 
