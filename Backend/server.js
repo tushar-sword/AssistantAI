@@ -2,6 +2,7 @@ const dotenv = require("dotenv");
 const express = require("express");
 const cors = require("cors");
 const connectDB = require("./config/db.js");
+const serverless = require("serverless-http");
 
 // Routes
 const userRoutes = require("./Routes/userRoutes.js");
@@ -14,7 +15,6 @@ dotenv.config();
 connectDB();
 
 const app = express();
-const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(express.json());
@@ -22,7 +22,7 @@ app.use(cors());
 
 // Test route
 app.get("/", (req, res) => {
-  res.send("API is running...");
+  res.send("API is running on Vercel 🚀");
 });
 
 // Routes
@@ -30,10 +30,8 @@ app.use("/api/users", userRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/ai", aiRoutes);
 app.use("/api/ai", aiGetRoutes);
-app.use("/api/ai-content", aiContentRoutes); 
+app.use("/api/ai-content", aiContentRoutes);
 
-
-
-app.listen(PORT, () =>
-  console.log(`🚀 Server running on http://localhost:${PORT}`)
-);
+// ✅ Export instead of listen
+module.exports = app;
+module.exports.handler = serverless(app);
