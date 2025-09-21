@@ -5,5 +5,8 @@
 .env.production
 .env.test
 
-
+# Ignore dependencies
 node_modules/
+
+# Ignore test script
+test-vertex.js
