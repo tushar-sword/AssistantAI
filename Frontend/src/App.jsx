@@ -8,7 +8,7 @@ import ProductReviewPage from "../pages/ProductReviewPage/ProductReviewPage";
 import AIProRevPage from "../pages/AIProductReviewPage/AIProRevPage";
 import AIContentPage from "../pages/AIContentPage/AIContentPage";
 import ProductDetailPage from "../pages/ProductDetailPage/ProductDetailPage";
-import AIProductDetailPage from "../pages/AIProductDetailPage/AIProductDetailPage";
+import AIProductDetailPage from "../pages/ArtiProductDetailPage/ArtiroductDetailPage";
 
 import ContentProductDetails from "../pages/ContentProductDetails/ContentProductDetails";
 import ContentGenerationPage from "../pages/ContentGenrationPage/ContentGenerationPage";
