@@ -8,5 +8,5 @@
 # Ignore dependencies
 node_modules/
 
-# Ignore test script
-test-vertex.js
+# Ignore service account credentials
+service-account.json
