@@ -103,12 +103,12 @@ router.post("/enhance-image/:id", async (req, res) => {
       const publicId = publicIdWithExt.replace(/\.[^/.]+$/, ""); // remove extension
 
       // Generate enhanced URLs for each artistic effect
-      const enhancedVariants = `https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload/e_art:zorro/${publicId}`
+      const enhancedVariants = `https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload/e_art:quartz/${publicId}`
       enhancedPairs.push({ original: imageUrl, enhanced: enhancedVariants });
     }
 
     await AiEnhancement.findOneAndUpdate(
-      { productId: product._id },
+      { productId: product._id },git 
       { enhancedImages: enhancedPairs },
       { upsert: true, new: true }
     );
