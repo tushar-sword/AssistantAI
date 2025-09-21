@@ -1,4 +1,3 @@
-// src/components/ContentProductCard/ContentProductCard.jsx
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,13 +7,10 @@ import "./ContentProductCard.css";
 const ContentProductCard = ({ product, aiEnhancement }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const { isLoading: contentLoading } = useSelector((state) => state.content);
 
   const imageUrl =
-    aiEnhancement?.enhancedImages?.length > 0
-      ? aiEnhancement.enhancedImages[0].enhanced
-      : product?.images?.[0]?.url;
+    aiEnhancement?.enhancedImages?.[0]?.enhanced || product?.images?.[0]?.url;
 
   const handleGenerateContent = async () => {
     if (!product?._id) return;
@@ -54,7 +50,7 @@ const ContentProductCard = ({ product, aiEnhancement }) => {
             className="btn btn-primary"
             disabled={contentLoading}
           >
-            {contentLoading ? "Generating..." : "Generate Content"}
+            {contentLoading ? "Generating..." : "Generate Captions"}
           </button>
         </div>
       </div>

@@ -8,7 +8,7 @@ const userRoutes = require("./Routes/userRoutes.js");
 const productRoutes = require("./Routes/productRoutes.js");
 const aiRoutes = require("./Routes/ai.js");
 const aiGetRoutes = require("./Routes/aiGet.js");
-const aiContentRoutes = require("./Routes/aiContent.js"); // ✅ Import AI Content routes
+const aiContentRoutes = require("./Routes/aiContent.js"); 
 
 dotenv.config();
 connectDB();

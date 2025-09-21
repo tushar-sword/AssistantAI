@@ -94,19 +94,17 @@ router.post("/enhance-image/:id", async (req, res) => {
     for (const img of product.images) {
       const imageUrl = img.url || img;
 
-      // Cloudinary auto enhancements
-      const enhancedUrl = cloudinary.url(imageUrl, {
-        effect: "improve",
-        quality: "auto:best",
-        fetch_format: "auto",
-        transformation: [
-          { effect: "sharpen" },
-          { effect: "auto_color" },
-          { background: "black" },
-        ],
-      });
+      // Extract Cloudinary public ID from URL
+      // Example: https://res.cloudinary.com/<cloud>/image/upload/v12345/folder/img.jpg
+      // → publicId = folder/img
+      const urlParts = imageUrl.split("/");
+      const versionIndex = urlParts.findIndex(part => part.startsWith("v"));
+      const publicIdWithExt = urlParts.slice(versionIndex + 1).join("/"); // e.g., folder/img.jpg
+      const publicId = publicIdWithExt.replace(/\.[^/.]+$/, ""); // remove extension
 
-      enhancedPairs.push({ original: imageUrl, enhanced: enhancedUrl });
+      // Generate enhanced URLs for each artistic effect
+      const enhancedVariants = `https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload/e_art:quartz/${publicId}`
+      enhancedPairs.push({ original: imageUrl, enhanced: enhancedVariants });
     }
 
     await AiEnhancement.findOneAndUpdate(
@@ -118,11 +116,10 @@ router.post("/enhance-image/:id", async (req, res) => {
     res.json({ productId: product._id, enhancedImages: enhancedPairs });
   } catch (err) {
     console.error("❌ Enhance Image Error:", err);
-    res
-      .status(500)
-      .json({ error: "Image enhancement failed", details: err.message });
+    res.status(500).json({ error: "Image enhancement failed", details: err.message });
   }
 });
+
 
 /**
  * ===============================
