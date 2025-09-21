@@ -108,7 +108,7 @@ router.post("/enhance-image/:id", async (req, res) => {
     }
 
     await AiEnhancement.findOneAndUpdate(
-      { productId: product._id },git 
+      { productId: product._id }, 
       { enhancedImages: enhancedPairs },
       { upsert: true, new: true }
     );

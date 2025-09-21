@@ -1,28 +1,27 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
+// ✅ Use Vite env variable for backend API
+const CONTENT_API_URL = `${import.meta.env.VITE_API_URL}/ai-content`;
 
-const CONTENT_API_URL = "http://localhost:5000/api/ai-content";
+// Utility to normalize caption keys to lowercase
+const normalizeKeys = (captions) => ({
+  instagram: captions.Instagram || captions.instagram || [],
+  facebook: captions.Facebook || captions.facebook || [],
+  whatsapp: captions.WhatsApp || captions.whatsapp || [],
+});
 
-//Generate AI Content
+// Generate AI Content (captions for social media platforms)
 export const generateContentForProduct = createAsyncThunk(
   "content/generate",
   async (productId, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.user?.token;
-      const config = token
-        ? { headers: { Authorization: `Bearer ${token}` } }
-        : {};
+      const config = token ? { headers: { Authorization: `Bearer ${token}` } } : {};
 
-      const res = await axios.post(
-        `${CONTENT_API_URL}/generate/${productId}`,
-        {},
-        config
-      );
-
+      const res = await axios.post(`${CONTENT_API_URL}/generate/${productId}`, {}, config);
       console.log("📥 [Redux] generateContentForProduct response:", res.data);
 
-      
       return res.data;
     } catch (error) {
       console.error("❌ [Redux] generateContentForProduct error:", error);
@@ -33,13 +32,14 @@ export const generateContentForProduct = createAsyncThunk(
   }
 );
 
-//Fetch the content by productid
+// Fetch AI content by product ID
 export const fetchContentByProductId = createAsyncThunk(
   "content/fetchById",
   async (productId, thunkAPI) => {
     try {
       const res = await axios.get(`${CONTENT_API_URL}/product/${productId}`);
-      console.log(" [Redux] fetchContentByProductId response:", res.data);
+      console.log("[Redux] fetchContentByProductId response:", res.data);
+
       return res.data;
     } catch (error) {
       console.error("[Redux] fetchContentByProductId error:", error);
@@ -53,7 +53,7 @@ export const fetchContentByProductId = createAsyncThunk(
 const contentSlice = createSlice({
   name: "content",
   initialState: {
-    items: [], // list of all content objects
+    items: [], // list of all AI content objects
     selectedContent: null, // currently viewed product content
     isLoading: false,
     isError: false,
@@ -69,7 +69,7 @@ const contentSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // Generate Content
+      // Generate captions
       .addCase(generateContentForProduct.pending, (state) => {
         state.isLoading = true;
       })
@@ -77,16 +77,14 @@ const contentSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
 
-        const { productId, content, product } = action.payload;
+        const { productId, captions, content } = action.payload;
 
-        if (product) {
-          state.selectedContent = { productId: product.id, debugProduct: product };
-        } else if (productId && content) {
-        
-          state.items = state.items.filter((c) => c.productId !== productId);
-          state.items.push({ productId, content });
-          state.selectedContent = { productId, content };
-        }
+        // Normalize captions from content if it exists
+        const normalized = normalizeKeys(content || captions || {});
+
+        state.items = state.items.filter((c) => c.productId !== productId);
+        state.items.push({ productId, captions: normalized });
+        state.selectedContent = { productId, captions: normalized };
       })
       .addCase(generateContentForProduct.rejected, (state, action) => {
         state.isLoading = false;
@@ -94,13 +92,24 @@ const contentSlice = createSlice({
         state.message = action.payload;
       })
 
-      // Fetch by id
+      // Fetch captions by product ID
       .addCase(fetchContentByProductId.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(fetchContentByProductId.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.selectedContent = action.payload;
+
+        const { productId, captions, content } = action.payload;
+
+        // Normalize captions from content if it exists
+        const normalized = normalizeKeys(content || captions || {});
+
+        state.selectedContent = { productId, captions: normalized };
+
+        const exists = state.items.find((c) => c.productId === productId);
+        if (!exists) {
+          state.items.push({ productId, captions: normalized });
+        }
       })
       .addCase(fetchContentByProductId.rejected, (state, action) => {
         state.isLoading = false;

@@ -1,9 +1,9 @@
 /* 🔹 Container */
 .suggestion-box-container {
-  margin: 3rem auto;
-  max-width: 1100px;
+  width: 100%;                     /* take full screen width */
+  margin: 0;                       /* remove auto centering */
   padding: 2rem;
-  border-radius: 16px;
+  border-radius: 0;                /* optional: square edges for full width */
   background: linear-gradient(135deg, #000814, #001d3d);
   box-shadow: 0 6px 20px rgba(0, 102, 255, 0.3);
   color: #d6e9ff;
@@ -21,8 +21,10 @@
 /* 🔹 Grid Layout */
 .suggestion-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1.5rem;
+  align-items: stretch;
+  width: 100%;                    /* ensure grid spans full width */
 }
 
 /* 🔹 Individual Card */
@@ -33,6 +35,10 @@
   border: 1px solid rgba(0, 191, 255, 0.3);
   box-shadow: 0 4px 12px rgba(0, 102, 255, 0.2);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
 .suggestion-card:hover {
@@ -47,6 +53,7 @@
   color: #00bfff;
   border-bottom: 1px solid rgba(0, 191, 255, 0.3);
   padding-bottom: 0.3rem;
+  word-break: break-word;
 }
 
 /* List */
@@ -54,6 +61,8 @@
   list-style: none;
   padding: 0;
   margin: 0;
+  flex: 1;
+  overflow-y: auto;
 }
 
 .suggestion-card li {
@@ -65,6 +74,8 @@
   font-size: 0.95rem;
   border: 1px solid rgba(0, 191, 255, 0.2);
   transition: background 0.2s ease;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
 }
 
 .suggestion-card li:hover {
@@ -88,12 +99,7 @@
   .suggestion-box-container {
     padding: 1.5rem;
   }
-
   .suggestion-grid {
     grid-template-columns: 1fr;
   }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 1f70f6d3d50fca40b3edc05da3622bb17cb4054c

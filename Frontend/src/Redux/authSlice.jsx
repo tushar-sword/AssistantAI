@@ -1,58 +1,68 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const API_URL = "http://localhost:5000/api/users/";
+// ✅ Use Vite env variable for backend URL
+const API_URL = `${import.meta.env.VITE_API_URL}/users`;
 const user = JSON.parse(localStorage.getItem("user"));
 
 // LOGIN
-export const login = createAsyncThunk("users/login", async (userData, thunkAPI) => {
-  try {
-    const res = await axios.post(API_URL + "login", userData);
+export const login = createAsyncThunk(
+  "users/login",
+  async (userData, thunkAPI) => {
+    try {
+      const res = await axios.post(`${API_URL}/login`, userData);
 
-    if (res.data) {
-      localStorage.setItem("user", JSON.stringify(res.data));
+      if (res.data) {
+        localStorage.setItem("user", JSON.stringify(res.data));
+      }
+
+      return res.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || "Login failed"
+      );
     }
-
-    return res.data;
-  } catch (error) {
-    return thunkAPI.rejectWithValue(
-      error.response?.data?.message || "Login failed"
-    );
   }
-});
+);
 
 // REGISTER
-export const register = createAsyncThunk("users/register", async (userData, thunkAPI) => {
-  try {
-    const res = await axios.post(API_URL + "register", userData);
+export const register = createAsyncThunk(
+  "users/register",
+  async (userData, thunkAPI) => {
+    try {
+      const res = await axios.post(`${API_URL}/register`, userData);
 
-    if (res.data) {
-      localStorage.setItem("user", JSON.stringify(res.data));
+      if (res.data) {
+        localStorage.setItem("user", JSON.stringify(res.data));
+      }
+
+      return res.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || "Registration failed"
+      );
     }
-
-    return res.data;
-  } catch (error) {
-    return thunkAPI.rejectWithValue(
-      error.response?.data?.message || "Registration failed"
-    );
   }
-});
+);
 
 // GET PROFILE
-export const getProfile = createAsyncThunk("auth/profile", async (_, thunkAPI) => {
-  try {
-    const token = thunkAPI.getState().auth.user?.token;
-    const config = {
-      headers: { Authorization: `Bearer ${token}` },
-    };
-    const res = await axios.get(API_URL + "profile", config);
-    return res.data;
-  } catch (error) {
-    return thunkAPI.rejectWithValue(
-      error.response?.data?.message || "Failed to fetch profile"
-    );
+export const getProfile = createAsyncThunk(
+  "auth/profile",
+  async (_, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user?.token;
+      const config = {
+        headers: { Authorization: `Bearer ${token}` },
+      };
+      const res = await axios.get(`${API_URL}/profile`, config);
+      return res.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || "Failed to fetch profile"
+      );
+    }
   }
-});
+);
 
 // LOGOUT
 export const logout = createAsyncThunk("auth/logout", async () => {
@@ -79,7 +89,7 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // LOGIN's extraa 
+      // LOGIN
       .addCase(login.pending, (state) => {
         state.isLoading = true;
       })
@@ -95,7 +105,7 @@ const authSlice = createSlice({
         state.user = null;
       })
 
-      // REGISTER's extraa
+      // REGISTER
       .addCase(register.pending, (state) => {
         state.isLoading = true;
       })

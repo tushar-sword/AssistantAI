@@ -2,7 +2,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const API_URL = "http://localhost:5000/api/products/";
+// ✅ Use Vite env variable for backend URL
+const API_URL = `${import.meta.env.VITE_API_URL}/products`;
 
 // 👉 Add Product
 export const addProduct = createAsyncThunk(
@@ -47,7 +48,7 @@ export const fetchProductById = createAsyncThunk(
   "products/fetchById",
   async (id, thunkAPI) => {
     try {
-      const res = await axios.get(API_URL + id);
+      const res = await axios.get(`${API_URL}/${id}`);
       return res.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(
@@ -68,7 +69,7 @@ export const enhanceProductImage = createAsyncThunk(
       };
 
       const res = await axios.post(
-        `http://localhost:5000/api/ai/enhance-image/${id}`, // ✅ FIXED ROUTE
+        `${import.meta.env.VITE_API_URL}/ai/enhance-image/${id}`,
         {},
         config
       );

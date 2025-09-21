@@ -1,5 +1,4 @@
-
-/* For Whole page */
+/* Page container */
 .content-detail-container {
   min-height: 100vh;
   padding: 80px 60px;
@@ -8,6 +7,7 @@
   color: #fffde7;
 }
 
+/* Back button */
 .btn-back {
   margin-bottom: 20px;
   background: transparent;
@@ -24,7 +24,7 @@
   transform: translateY(-2px);
 }
 
-/* Layout */
+/* Wrapper */
 .content-detail-wrapper {
   display: flex;
   gap: 3rem;
@@ -39,12 +39,11 @@
   backdrop-filter: blur(8px);
 }
 
-/* Image-Section */
+/* Image area */
 .content-image-gallery {
   flex: 1;
   text-align: center;
 }
-
 .content-main-image img {
   width: 100%;
   max-width: 420px;
@@ -54,7 +53,7 @@
   box-shadow: 0 4px 18px rgba(255, 235, 59, 0.35);
 }
 
-/* Generate Button */
+/* Generate button */
 .btn-generate-content {
   margin-top: 16px;
   width: 100%;
@@ -75,12 +74,11 @@
   background: linear-gradient(90deg, #ffee58, #ffeb3b);
 }
 
-/* Info Section */
+/* Info section */
 .content-info {
   flex: 1;
   color: #fffde7;
 }
-
 .content-info h2 {
   font-size: 2rem;
   font-weight: 600;
@@ -91,27 +89,24 @@
   align-items: center;
   gap: 8px;
 }
-
 .content-price {
   font-size: 1.6rem;
   font-weight: bold;
-  color: #ffffff;
   margin-bottom: 0.8rem;
+  color: #ffffff;
 }
-
 .content-category {
   font-style: italic;
   margin-bottom: 1rem;
   color: #fff9c4;
 }
-
 .content-description {
   margin-bottom: 2rem;
   line-height: 1.6;
   color: #fffde7;
 }
 
-/* Copy button */
+/* Copy buttons */
 .copy-btn {
   margin-left: 6px;
   background: transparent;
@@ -129,6 +124,34 @@
   margin-left: 6px;
   font-size: 12px;
   color: #bfff00;
+}
+
+/* Captions */
+.captions-section {
+  margin-top: 2rem;
+}
+.caption-block {
+  margin-bottom: 1.8rem;
+}
+.caption-title {
+  color: #ffeb3b;
+  font-size: 1.2rem;
+  margin-bottom: 0.6rem;
+}
+.caption-block ul {
+  list-style: none;
+  padding-left: 0;
+}
+.caption-block li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 0;
+  border-bottom: 1px dashed rgba(255, 235, 59, 0.2);
+}
+.no-captions {
+  color: #fff9c4;
+  font-style: italic;
 }
 
 /* Responsive */

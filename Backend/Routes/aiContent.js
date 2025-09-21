@@ -1,91 +1,27 @@
-// routes/aiContent.js
+// routes/aiContentRoutes.js
 const express = require("express");
-const AiContent = require("../models/AiContent.js");
-const Product = require("../models/product.js");
-
 const router = express.Router();
+const { generateForProduct } = require("../Controllers/aiContentController");
+const AiContent = require("../models/AiContent");
 
-/**
- * ===============================
- * 1️⃣ Generate AI Content for Product (Test Mode)
- * ===============================
- */
-router.post("/generate/:productId", async (req, res) => {
-  try {
-    const { productId } = req.params;
+// POST /api/ai-content/generate/:productId
+router.post("/generate/:productId", generateForProduct);
 
-    console.log("🚀 [HIT] /generate route called");
-    console.log("📌 productId from params:", productId);
-    console.log("📦 req.body:", req.body);
-
-    const product = await Product.findById(productId);
-    if (!product) {
-      console.log("❌ Product not found in DB");
-      return res.status(404).json({ error: "Product not found" });
-    }
-
-    console.log("✅ Product found:", {
-      id: product._id,
-      name: product.name,
-      description: product.description,
-      price: product.price,
-      category: product.category,
-      images: product.images,
-    });
-
-    // ===============================
-    // ⏸️ Commented: AI Content Generation
-    // const prompt = ` ... `
-    // const aiText = await groqChat(prompt);
-    // const parsedContent = safeParseJSON(aiText);
-    // const aiContent = await AiContent.findOneAndUpdate(
-    //   { productId },
-    //   { content: parsedContent, rawText: aiText },
-    //   { upsert: true, new: true }
-    // );
-    // return res.json({ productId, content: aiContent.content, rawText: aiContent.rawText });
-    // ===============================
-
-    // For now, just send back product info for debugging
-    res.json({
-      success: true,
-      message: "Route hit successfully!",
-      product: {
-        id: product._id,
-        name: product.name,
-        description: product.description,
-        price: product.price,
-        category: product.category,
-        images: product.images,
-      },
-    });
-  } catch (err) {
-    console.error("❌ AI Content route error:", err);
-    res.status(500).json({ error: "Route failed", details: err.message });
-  }
-});
-
-/**
- * ===============================
- * 2️⃣ Fetch AI Content by Product ID
- * ===============================
- */
+// GET content by product
 router.get("/product/:productId", async (req, res) => {
+  const { productId } = req.params;
+  console.log("📌 [HIT] /product/:productId", productId);
   try {
-    const { productId } = req.params;
-    console.log("📌 [HIT] /product/:productId", productId);
-
-    const content = await AiContent.findOne({ productId });
-    if (!content) {
+    const doc = await AiContent.findOne({ productId });
+    if (!doc) {
       console.log("⚠️ No AI content found for product:", productId);
-      return res.status(404).json({ error: "Content not found" });
+      return res.status(404).json({ message: "No AI content for that product" });
     }
-
-    console.log("✅ Content fetched:", content._id);
-    res.json(content);
+    console.log("✅ Returning AI content:", doc._id);
+    res.json(doc);
   } catch (err) {
-    console.error("❌ Fetch AI content error:", err);
-    res.status(500).json({ error: "Failed to fetch AI content", details: err.message });
+    console.error("❌ fetch ai content error:", err);
+    res.status(500).json({ message: "Server error" });
   }
 });
 

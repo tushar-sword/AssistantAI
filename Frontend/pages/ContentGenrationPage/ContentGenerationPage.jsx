@@ -15,7 +15,6 @@ const ContentGenerationPage = () => {
   const { selectedContent, isLoading, isError, message } = useSelector(
     (state) => state.content
   );
-
   const [copied, setCopied] = useState("");
 
   useEffect(() => {
@@ -29,46 +28,37 @@ const ContentGenerationPage = () => {
     setTimeout(() => setCopied(""), 2000);
   };
 
-  if (isLoading) {
-    return (
-      <>
-        <Navbar />
-        <div className="content-gen-page">
-          <p>Loading generated content...</p>
-        </div>
-        <Footer />
-      </>
-    );
-  }
+  if (isLoading) return (
+    <>
+      <Navbar />
+      <div className="content-gen-page">
+        <p>Loading generated captions...</p>
+      </div>
+      <Footer />
+    </>
+  );
 
-  if (isError) {
-    return (
-      <>
-        <Navbar />
-        <div className="content-gen-page">
-          <p className="error">{message}</p>
-        </div>
-        <Footer />
-      </>
-    );
-  }
+  if (isError) return (
+    <>
+      <Navbar />
+      <div className="content-gen-page">
+        <p className="error">{message}</p>
+      </div>
+      <Footer />
+    </>
+  );
 
-  if (!selectedContent) {
-    return (
-      <>
-        <Navbar />
-        <div className="content-gen-page">
-          <p>No content found for this product.</p>
-        </div>
-        <Footer />
-      </>
-    );
-  }
+  if (!selectedContent) return (
+    <>
+      <Navbar />
+      <div className="content-gen-page">
+        <p>No content found for this product.</p>
+      </div>
+      <Footer />
+    </>
+  );
 
-  //Defensive: sometimes only rawText is available - will update this
-  const { content, rawText } = selectedContent;
-  const platforms =
-    content && typeof content === "object" ? Object.keys(content) : [];
+  const { captions } = selectedContent;
 
   return (
     <>
@@ -78,98 +68,41 @@ const ContentGenerationPage = () => {
           <button className="btn-back" onClick={() => navigate(-1)}>
             ← Back
           </button>
-          <h2>Generated Content</h2>
+          <h2>Generated Captions</h2>
           <p className="small">
-            Use the items below to post on each platform
+            Copy suggested captions for each platform
           </p>
         </div>
 
-        {platforms.length === 0 ? (
-          <div className="raw-text-fallback">
-            <h3>Raw AI Output</h3>
-            <pre className="raw-text-block">
-              {rawText || "No structured content yet."}
-            </pre>
-          </div>
+        {captions ? (
+          Object.entries(captions).map(([platform, texts]) => (
+            <section className="platform-section" key={platform}>
+              <h3>{platform.charAt(0).toUpperCase() + platform.slice(1)}</h3>
+              {texts?.length > 0 ? (
+                <ul className="caption-list">
+                  {texts.map((text, idx) => (
+                    <li key={idx} className="caption-item">
+                      <p>{text}</p>
+                      <button
+                        className="icon-btn"
+                        onClick={() => handleCopy(text, `${platform}-${idx}`)}
+                        aria-label="Copy caption"
+                      >
+                        <FiCopy size={16} />
+                      </button>
+                      {copied === `${platform}-${idx}` && (
+                        <span className="copied">Copied!</span>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="muted">No captions generated.</p>
+              )}
+            </section>
+          ))
         ) : (
-          platforms.map((platform) => {
-            const data = content[platform];
-            return (
-              <section className="platform-section" key={platform}>
-                <h3>{platform}</h3>
-
-                <div className="section-grid">
-                  <div className="media-column">
-                    <h4>Posters</h4>
-                    <div className="poster-grid">
-                      {Array.isArray(data?.posters) && data.posters.length > 0 ? (
-                        data.posters.map((src, idx) => (
-                          <div key={idx} className="poster-item">
-                            <img
-                              src={src}
-                              alt={`${platform} poster ${idx + 1}`}
-                            />
-                            <div className="poster-actions">
-                              <a
-                                href={src}
-                                download={`${id}-${platform}-poster-${idx + 1}.jpg`}
-                                className="btn-outline"
-                              >
-                                Download
-                              </a>
-                            </div>
-                          </div>
-                        ))
-                      ) : (
-                        <p className="muted">No posters generated.</p>
-                      )}
-                    </div>
-
-                    <h4 style={{ marginTop: 12 }}>Reels / Videos</h4>
-                    <div className="reel-grid">
-                      {Array.isArray(data?.reels) && data.reels.length > 0 ? (
-                        data.reels.map((src, idx) => (
-                          <video key={idx} src={src} controls width="320" />
-                        ))
-                      ) : (
-                        <p className="muted">No reels generated.</p>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="text-column">
-                    <h4>Suggested Text / Captions</h4>
-                    {Array.isArray(data?.descriptions) &&
-                    data.descriptions.length > 0 ? (
-                      <ul className="desc-list">
-                        {data.descriptions.map((d, i) => (
-                          <li key={i} className="desc-item">
-                            <p>{d}</p>
-                            <div className="desc-actions">
-                              <button
-                                className="icon-btn"
-                                onClick={() =>
-                                  handleCopy(d, `${platform}-desc-${i}`)
-                                }
-                                aria-label="Copy text"
-                              >
-                                <FiCopy size={16} />
-                              </button>
-                              {copied === `${platform}-desc-${i}` && (
-                                <span className="copied">Copied!</span>
-                              )}
-                            </div>
-                          </li>
-                        ))}
-                      </ul>
-                    ) : (
-                      <p className="muted">No text generated.</p>
-                    )}
-                  </div>
-                </div>
-              </section>
-            );
-          })
+          <p className="muted">No captions found.</p>
         )}
       </div>
       <Footer />

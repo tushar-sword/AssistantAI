@@ -4,15 +4,8 @@ const AiContent = require("../models/AiContent");
 const { generateCaptionsFromImage } = require("../utils/groq");
 
 /**
- * POST /api/ai-content/generate/:productId
- * - Reads product image (first image url)
- * - Calls Groq to generate platform-specific captions
- * - Saves result into AiContent collection (create or update)
+ * Normalize raw JSON output from Groq into structured captions
  */
-// controllers/aiContentController.js
-
-// controllers/aiContentController.js
-
 const normalizeCaptions = (rawText) => {
   try {
     const clean = rawText.replace(/```json|```/g, "").trim();
@@ -29,15 +22,20 @@ const normalizeCaptions = (rawText) => {
   }
 };
 
+/**
+ * POST /api/ai-content/generate/:productId
+ * Generates AI captions for a product and saves them in DB
+ */
 exports.generateForProduct = async (req, res) => {
   try {
     const { productId } = req.params;
     const product = await Product.findById(productId);
     if (!product) return res.status(404).json({ message: "Product not found" });
 
-    const result = await generateCaptionsFromProduct(product);
+    // ✅ Call correct Groq util function
+    const result = await generateCaptionsFromImage(product);
 
-    // 📝 Normalize captions
+    // Normalize captions for DB
     const captions = normalizeCaptions(result.raw);
 
     let aiContent = await AiContent.findOne({ productId });
@@ -55,7 +53,6 @@ exports.generateForProduct = async (req, res) => {
 
     await aiContent.save();
 
-    // ✅ Return in frontend-friendly format
     return res.json({
       success: true,
       message: "AI content generated successfully",

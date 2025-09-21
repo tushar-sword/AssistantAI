@@ -1,3 +1,15 @@
+/* Reset */
+body {
+  overflow-x: hidden;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Navbar */
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -9,6 +21,7 @@
   position: sticky;
   top: 0;
   z-index: 10;
+  font-family: 'Poppins', sans-serif;
 }
 
 .logo {
@@ -18,16 +31,25 @@
   cursor: pointer;
   transition: color 0.3s ease, text-shadow 0.3s ease;
 }
-
 .logo:hover {
   color: #00ffaa;
   text-shadow: 0 0 10px rgba(0, 255, 170, 0.8);
 }
 
+/* ===== Desktop ===== */
+.menu-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px; /* spacing between nav-links and auth-section */
+  flex: 1; /* take available space */
+}
+
 .nav-links {
-  list-style: none;
   display: flex;
   gap: 25px;
+  list-style: none;
+  margin: 0 auto; /* center the links block */
 }
 
 .nav-links li a {
@@ -36,19 +58,18 @@
   transition: color 0.3s ease, text-shadow 0.3s ease;
   font-weight: 500;
 }
-
 .nav-links li a:hover {
   color: #00ff99;
   text-shadow: 0 0 8px rgba(0, 255, 153, 0.7);
 }
 
-/* === Auth Buttons Styling  */
 .auth-section {
   display: flex;
   align-items: center;
   gap: 15px;
 }
 
+/* Auth Buttons */
 .auth-section button {
   padding: 8px 16px;
   font-size: 0.95rem;
@@ -58,7 +79,6 @@
   transition: all 0.3s ease;
   backdrop-filter: blur(6px);
 }
-
 
 .login-btn {
   background: rgba(0, 255, 127, 0.12);
@@ -70,7 +90,6 @@
   box-shadow: 0 0 10px rgba(0, 255, 127, 0.6);
 }
 
-/* Profile Button */
 .profile-btn {
   background: rgba(255, 255, 255, 0.08);
   color: #fff;
@@ -81,7 +100,6 @@
   box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
 }
 
-/* Logout-Button */
 .logout-btn {
   background: rgba(255, 0, 0, 0.15);
   color: #ff6b6b;
@@ -90,4 +108,71 @@
 .logout-btn:hover {
   background: rgba(255, 0, 0, 0.25);
   box-shadow: 0 0 10px rgba(255, 80, 80, 0.6);
+}
+
+/* Hamburger */
+.menu-icon {
+  display: none;
+  color: #00ff99;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+/* ===== 📱 Mobile ===== */
+@media screen and (max-width: 768px) {
+  .navbar {
+    padding: 15px 25px;
+  }
+
+  .menu-container {
+    display: none; /* hide by default */
+  }
+
+  .menu-container.show-menu {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    text-align: center;
+    background: rgba(0, 30, 0, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(0, 255, 128, 0.3);
+    padding: 20px 0;
+    z-index: 5;
+    animation: fadeInDown 0.4s ease-in-out forwards;
+  }
+
+  .nav-links {
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 15px;
+  }
+
+  .nav-links li a {
+    font-size: 1.1rem;
+    padding: 10px;
+    display: block;
+  }
+
+  .auth-section {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .menu-icon {
+    display: block;
+  }
+
+  @keyframes fadeInDown {
+    from {
+      transform: translateY(-20%);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
 }
