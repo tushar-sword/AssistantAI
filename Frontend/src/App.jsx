@@ -12,6 +12,7 @@ import AIProductDetailPage from "../pages/AIProductDetailPage/AIProductDetailPag
 
 import ContentProductDetails from "../pages/ContentProductDetails/ContentProductDetails";
 import ContentGenerationPage from "../pages/ContentGenrationPage/ContentGenerationPage";
+import AIStoryPage from "../pages/AIStoryPage/AIStoryPage";
 
 function App() {
   return (
@@ -33,6 +34,8 @@ function App() {
         
         <Route path="/ai-content/:id/details" element={<ContentProductDetails />} />
         <Route path="/ai-content/:id/content" element={<ContentGenerationPage />} />
+
+         <Route path="/ai-story" element={<AIStoryPage />} />
       </Routes>
     </Router>
   );

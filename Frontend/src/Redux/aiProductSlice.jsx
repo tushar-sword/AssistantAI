@@ -1,10 +1,10 @@
-// this is most important file 
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const AI_API_URL = "http://localhost:5000/api/ai";
+// ✅ Use Vite env variable for backend API
+const AI_API_URL = `${import.meta.env.VITE_API_URL}/ai`;
 
-//Fetch all AI-enhanced product
+// Fetch all AI-enhanced products
 export const fetchAiProducts = createAsyncThunk(
   "aiProducts/fetchAll",
   async (_, thunkAPI) => {
@@ -19,7 +19,7 @@ export const fetchAiProducts = createAsyncThunk(
   }
 );
 
-//Fetch AI-enhanced product by id
+// Fetch AI-enhanced product by id
 export const fetchAiProductById = createAsyncThunk(
   "aiProducts/fetchById",
   async (id, thunkAPI) => {
@@ -34,7 +34,7 @@ export const fetchAiProductById = createAsyncThunk(
   }
 );
 
-//Enhance Product Images (from AiProductDetailsPage)
+// Enhance AI Product Images
 export const enhanceAiProductImage = createAsyncThunk(
   "aiProducts/enhanceImage",
   async (id, thunkAPI) => {
@@ -42,12 +42,7 @@ export const enhanceAiProductImage = createAsyncThunk(
       const token = thunkAPI.getState().auth.user?.token;
       const config = { headers: { Authorization: `Bearer ${token}` } };
 
-      const res = await axios.post(
-        `${AI_API_URL}/enhance-image/${id}`,
-        {},
-        config
-      );
-
+      const res = await axios.post(`${AI_API_URL}/enhance-image/${id}`, {}, config);
       return res.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(
@@ -57,7 +52,7 @@ export const enhanceAiProductImage = createAsyncThunk(
   }
 );
 
-//Generate AI Suggestion
+// Generate AI Suggestions
 export const generateAiSuggestions = createAsyncThunk(
   "aiProducts/generateSuggestions",
   async (id, thunkAPI) => {
@@ -65,13 +60,8 @@ export const generateAiSuggestions = createAsyncThunk(
       const token = thunkAPI.getState().auth.user?.token;
       const config = { headers: { Authorization: `Bearer ${token}` } };
 
-      const res = await axios.post(
-        `${AI_API_URL}/generate-suggestions/${id}`,
-        {},
-        config
-      );
-
-      return res.data; 
+      const res = await axios.post(`${AI_API_URL}/generate-suggestions/${id}`, {}, config);
+      return res.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(
         error.response?.data?.message || "Failed to generate suggestions"
@@ -99,7 +89,7 @@ const aiProductSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // FETCH sab kuch
+      // FETCH ALL
       .addCase(fetchAiProducts.pending, (state) => {
         state.isLoading = true;
       })
@@ -127,7 +117,7 @@ const aiProductSlice = createSlice({
         state.message = action.payload;
       })
 
-      // ENHANCEEMENT IMAGE
+      // ENHANCE IMAGE
       .addCase(enhanceAiProductImage.pending, (state) => {
         state.isLoading = true;
       })
@@ -137,7 +127,7 @@ const aiProductSlice = createSlice({
 
         const { productId, enhancedImages } = action.payload;
 
-        // update in items
+        // Update in items array
         state.items = state.items.map((item) =>
           item.product?._id === productId
             ? {
@@ -150,7 +140,7 @@ const aiProductSlice = createSlice({
             : item
         );
 
-     
+        // Update selectedAiProduct if it matches
         if (state.selectedAiProduct?.product?._id === productId) {
           state.selectedAiProduct.aiEnhancement = {
             ...(state.selectedAiProduct.aiEnhancement || {}),
@@ -164,7 +154,7 @@ const aiProductSlice = createSlice({
         state.message = action.payload;
       })
 
-      // GENERATE SUGGESTIONS (UPDATED) - tushar
+      // GENERATE SUGGESTIONS
       .addCase(generateAiSuggestions.pending, (state) => {
         state.isLoading = true;
       })
@@ -173,11 +163,9 @@ const aiProductSlice = createSlice({
         state.isSuccess = true;
 
         const { productId } = action.payload;
-    
-        const suggestionsBox =
-          action.payload.suggestionsBox ?? action.payload.suggestions;
+        const suggestionsBox = action.payload.suggestionsBox ?? action.payload.suggestions;
 
-        // update in items
+        // Update in items array
         state.items = state.items.map((item) =>
           item.product?._id === productId
             ? {
@@ -190,7 +178,7 @@ const aiProductSlice = createSlice({
             : item
         );
 
-        
+        // Update selectedAiProduct if it matches
         if (state.selectedAiProduct?.product?._id === productId) {
           state.selectedAiProduct.aiEnhancement = {
             ...(state.selectedAiProduct.aiEnhancement || {}),

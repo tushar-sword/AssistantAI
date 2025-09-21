@@ -6,6 +6,7 @@
   font-family: "Poppins", sans-serif;
 }
 
+/* Title */
 .product-review-page .title {
   text-align: center;
   font-size: 2rem;
@@ -13,12 +14,14 @@
   margin-bottom: 40px;
 }
 
+/* Grid */
 .product-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 30px;
 }
 
+/* Status messages */
 .loading,
 .error,
 .no-products {
@@ -33,4 +36,53 @@
 
 .no-products {
   color: #b8ffc8;
+}
+
+/* 📱 Responsive Styles */
+@media (max-width: 1024px) {
+  .product-review-page {
+    padding: 40px 60px;
+  }
+
+  .product-review-page .title {
+    font-size: 1.75rem;
+    margin-bottom: 30px;
+  }
+
+  .product-grid {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 25px;
+  }
+}
+
+@media (max-width: 768px) {
+  .product-review-page {
+    padding: 30px 30px;
+  }
+
+  .product-review-page .title {
+    font-size: 1.5rem;
+    margin-bottom: 25px;
+  }
+
+  .product-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .product-review-page {
+    padding: 20px 15px;
+  }
+
+  .product-review-page .title {
+    font-size: 1.3rem;
+    margin-bottom: 20px;
+  }
+
+  .product-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
 }

@@ -1,4 +1,8 @@
-/*Container */
+/* ================================
+   AI Product Detail Page Styles
+================================ */
+
+/* Container */
 .ai-product-detail-container {
   display: flex;
   gap: 3rem;
@@ -9,14 +13,21 @@
   background: linear-gradient(135deg, #000814, #001d3d);
   border-radius: 16px;
   box-shadow: 0 6px 20px rgba(0, 102, 255, 0.3);
+  transition: all 0.3s ease;
 }
 
-/*Image Section */
+/* ================================
+   Image Section
+================================ */
 .ai-image-gallery {
   flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.ai-main-image {
+  text-align: center;
 }
 
 .ai-main-image img {
@@ -26,12 +37,40 @@
   object-fit: cover;
   box-shadow: 0 4px 20px rgba(0, 191, 255, 0.4);
   border: 2px solid rgba(0, 191, 255, 0.5);
+  transition: transform 0.3s ease;
 }
 
-/*Product Info */
+.ai-main-image img:hover {
+  transform: scale(1.02);
+}
+
+/* Download Button */
+.ai-download-btn {
+  margin-top: 12px;
+  padding: 8px 14px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.ai-download-btn:hover {
+  background: #0056b3;
+  transform: translateY(-2px);
+}
+
+/* ================================
+   Product Info
+================================ */
 .ai-product-info {
   flex: 1;
   color: #d6e9ff;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  white-space: pre-wrap;
 }
 
 .ai-product-info h2 {
@@ -42,43 +81,31 @@
 }
 
 /* Suggested Titles */
-.ai-suggested-titles {
-  margin-bottom: 1rem;
-  color: #e0f7ff;
-}
-
-.ai-suggested-titles label {
-  margin-right: 0.5rem;
-  font-weight: bold;
-}
-
-.ai-suggested-titles select {
-  padding: 0.4rem 0.6rem;
-  border-radius: 6px;
-  border: 1px solid #007bff;
-  background: #001d3d;
-  color: #e0f7ff;
-}
-
-/* Suggested Descriptions */
+.ai-suggested-titles,
 .ai-suggested-descriptions {
   margin-bottom: 1rem;
   color: #e0f7ff;
 }
 
+.ai-suggested-titles label,
 .ai-suggested-descriptions label {
   margin-right: 0.5rem;
   font-weight: bold;
 }
 
+.ai-suggested-titles select,
 .ai-suggested-descriptions select {
   padding: 0.4rem 0.6rem;
   border-radius: 6px;
   border: 1px solid #007bff;
   background: #001d3d;
   color: #e0f7ff;
+  max-width: 100%;
+  overflow-wrap: break-word;
+  white-space: normal;
 }
 
+/* Pricing & Category */
 .ai-price {
   font-size: 1.8rem;
   font-weight: bold;
@@ -92,13 +119,16 @@
   color: #80d4ff;
 }
 
+/* Description */
 .ai-description {
   margin-bottom: 2rem;
   line-height: 1.6;
   color: #cfeeff;
 }
 
-/* Suggested Tags */
+/* ================================
+   Suggested Tags
+================================ */
 .ai-tags {
   margin-bottom: 2rem;
 }
@@ -119,12 +149,21 @@
   align-items: center;
   gap: 4px;
   border: 1px solid rgba(0, 191, 255, 0.3);
+  font-size: 0.9rem;
+  transition: background 0.2s ease;
 }
 
-/*Buttons */
+.ai-tag:hover {
+  background: rgba(0, 119, 255, 0.25);
+}
+
+/* ================================
+   Buttons
+================================ */
 .ai-button-row {
   display: flex;
   gap: 1rem;
+  margin-top: 1.5rem;
 }
 
 .ai-buy-btn,
@@ -140,7 +179,7 @@
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-/*Buy Now*/
+/* Buy Now */
 .ai-buy-btn {
   background-color: #0077ff;
   color: white;
@@ -150,7 +189,7 @@
   box-shadow: 0 6px 16px rgba(0, 119, 255, 0.5);
 }
 
-/*Add-to-Cart */
+/* Add-to-Cart */
 .ai-add-cart-btn {
   background-color: #ffd60a;
   color: #000814;
@@ -160,7 +199,7 @@
   box-shadow: 0 6px 16px rgba(255, 214, 10, 0.5);
 }
 
-/*Generating suggestions */
+/* Suggestions Button */
 .ai-suggestion-btn {
   background-color: #00b4d8;
   color: white;
@@ -170,7 +209,9 @@
   box-shadow: 0 6px 16px rgba(0, 180, 216, 0.6);
 }
 
-/*Suggestions section*/
+/* ================================
+   Suggestions Section
+================================ */
 .ai-suggestion-section {
   margin: 3rem auto;
   max-width: 1000px;
@@ -202,28 +243,17 @@
   color: #e0f7ff;
   border: 1px solid rgba(0, 191, 255, 0.3);
   transition: background 0.2s;
+  max-height: 220px; /* optional scroll for very long content */
+  overflow-y: auto;
 }
 
 .ai-suggestion-list li:hover {
   background: rgba(0, 119, 255, 0.25);
 }
 
-/* adding download button */
-.ai-download-btn {
-  margin-top: 10px;
-  padding: 6px 12px;
-  background: #007bff;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 14px;
-}
-
-.ai-download-btn:hover {
-  background: #0056b3;
-}
-
+/* ================================
+   Copy Button + Status
+================================ */
 .ai-copy-btn {
   margin-left: 8px;
   background: transparent;
@@ -232,7 +262,7 @@
   display: inline-flex;
   align-items: center;
   padding: 4px;
-  color: #555;
+  color: #bbb;
   transition: color 0.2s;
 }
 
@@ -243,22 +273,79 @@
 .copied-msg {
   margin-left: 6px;
   font-size: 12px;
-  color: green;
+  color: #4caf50;
 }
 
-/*Responsive */
-@media (max-width: 900px) {
+/* ================================
+   Responsive Design
+================================ */
+@media (max-width: 1024px) {
+  .ai-product-detail-container {
+    gap: 2rem;
+    padding: 2rem 1.5rem;
+  }
+
+  .ai-product-info h2 {
+    font-size: 1.9rem;
+  }
+
+  .ai-price {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
   .ai-product-detail-container {
     flex-direction: column;
     gap: 2rem;
+    padding: 2rem 1rem;
   }
 
   .ai-image-gallery {
-    flex-direction: column;
-    align-items: center;
+    width: 100%;
+  }
+
+  .ai-main-image img {
+    max-width: 100%;
   }
 
   .ai-button-row {
     flex-direction: column;
+  }
+
+  .ai-product-info h2 {
+    font-size: 1.6rem;
+  }
+
+  .ai-price {
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .ai-product-detail-container {
+    padding: 1.5rem 1rem;
+    gap: 1.5rem;
+  }
+
+  .ai-product-info h2 {
+    font-size: 1.4rem;
+  }
+
+  .ai-price {
+    font-size: 1.2rem;
+  }
+
+  .ai-description {
+    font-size: 0.95rem;
+  }
+
+  .ai-tag {
+    font-size: 0.8rem;
+  }
+
+  .ai-button-row button {
+    padding: 0.8rem;
+    font-size: 0.9rem;
   }
 }

@@ -1,0 +1,39 @@
+/* Page container */
+.ai-story-container {
+  min-height: 80vh; /* leave some space for navbar and footer */
+  padding: 60px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* horizontal center */
+  text-align: center;
+  font-family: "Poppins", sans-serif;
+  color: #ffffff; /* default text color white */
+  box-sizing: border-box;
+}
+
+/* Page Title - Top Middle */
+.story-page-title {
+  align-self: center; /* center horizontally */
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: #a259ff; /* strong neon purple */
+  text-shadow: 0 0 8px #a259ff, 0 0 16px #a259ff, 0 0 24px #a259ff;
+}
+
+/* Coming soon text */
+.coming-soon {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  color: #ffffff; /* simple white */
+  text-shadow: none;
+}
+
+/* Description paragraph */
+.story-description {
+  max-width: 800px;
+  font-size: 1.2rem;
+  line-height: 1.6;
+  color: #ffffff; /* simple white */
+  text-shadow: none;
+}
