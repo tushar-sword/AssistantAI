@@ -1,11 +1,17 @@
 const dotenv = require("dotenv");
 const express = require("express");
-
 const cors = require("cors");
 const connectDB = require("./config/db.js");
+
+// Routes
 const userRoutes = require("./Routes/userRoutes.js");
 const productRoutes = require("./Routes/productRoutes.js");
 const aiRoutes = require("./Routes/ai.js");
+<<<<<<< Updated upstream
+=======
+const aiGetRoutes = require("./Routes/aiGet.js");
+const aiContentRoutes = require("./Routes/aiContent.js"); // ✅ Import AI Content routes
+>>>>>>> Stashed changes
 
 dotenv.config();
 connectDB();
@@ -26,7 +32,13 @@ app.get("/", (req, res) => {
 app.use("/api/users", userRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/ai", aiRoutes);
+<<<<<<< Updated upstream
+=======
+app.use("/api/ai", aiGetRoutes);
+app.use("/api/ai-content", aiContentRoutes); 
+
+>>>>>>> Stashed changes
 
 app.listen(PORT, () =>
-  console.log(`Server running on http://localhost:${PORT}`)
+  console.log(`🚀 Server running on http://localhost:${PORT}`)
 );

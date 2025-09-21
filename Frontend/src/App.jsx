@@ -8,6 +8,8 @@ import ProductReviewPage from "../pages/ProductReviewPage/ProductReviewPage";
 import AIProRevPage from "../pages/AIProductReviewPage/AIProRevPage";
 import AIContentPage from "../pages/AIContentPage/AIContentPage";
 import ProductDetailPage from "../pages/ProductDetailPage/ProductDetailPage";
+import ContentProductDetails from "../pages/ContentProductDetails/ContentProductDetails";
+import ContentGenerationPage from "../pages/ContentGenrationPage/ContentGenerationPage";
 
 function App() {
   return (
@@ -22,6 +24,15 @@ function App() {
         <Route path="/ai-product-review" element={<AIProRevPage />} />
         <Route path="/ai-content" element={<AIContentPage />} />
         <Route path="/products/:id" element={<ProductDetailPage />} />
+<<<<<<< Updated upstream
+=======
+        <Route path="/ai-products/:id" element={<AIProductDetailPage />} /> {/* ✅ new route */}
+
+
+        // 20 Sep Routes for AI Content Product Details and Generation
+        <Route path="/ai-content/:id/details" element={<ContentProductDetails />} />
+        <Route path="/ai-content/:id/content" element={<ContentGenerationPage />} />
+>>>>>>> Stashed changes
       </Routes>
     </Router>
   );

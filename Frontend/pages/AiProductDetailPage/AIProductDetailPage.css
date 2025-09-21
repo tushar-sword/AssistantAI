@@ -1,0 +1,203 @@
+/* 🔹 Container */
+.ai-product-detail-container {
+  display: flex;
+  gap: 3rem;
+  padding: 3rem 2rem;
+  max-width: 1200px;
+  margin: auto;
+  align-items: flex-start;
+  background: linear-gradient(135deg, #000814, #001d3d);
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0, 102, 255, 0.3);
+}
+
+/* 🔹 Image Section */
+.ai-image-gallery {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ai-main-image img {
+  width: 100%;
+  max-width: 450px;
+  border-radius: 16px;
+  object-fit: cover;
+  box-shadow: 0 4px 20px rgba(0, 191, 255, 0.4);
+  border: 2px solid rgba(0, 191, 255, 0.5);
+}
+
+/* 🔹 Product Info */
+.ai-product-info {
+  flex: 1;
+  color: #d6e9ff;
+}
+
+.ai-product-info h2 {
+  font-size: 2.2rem;
+  margin-bottom: 1rem;
+  color: #00bfff;
+  text-shadow: 0 0 10px rgba(0, 191, 255, 0.6);
+}
+
+.ai-price {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: #ffffff;
+}
+
+.ai-category {
+  font-style: italic;
+  margin-bottom: 1rem;
+  color: #80d4ff;
+}
+
+.ai-description {
+  margin-bottom: 2rem;
+  line-height: 1.6;
+  color: #cfeeff;
+}
+
+/* 🔹 Buttons */
+.ai-button-row {
+  display: flex;
+  gap: 1rem;
+}
+
+.ai-buy-btn,
+.ai-add-cart-btn,
+.ai-suggestion-btn {
+  flex: 1;
+  padding: 1rem 0;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Buy Now */
+.ai-buy-btn {
+  background-color: #0077ff;
+  color: white;
+}
+.ai-buy-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0, 119, 255, 0.5);
+}
+
+/* Add to Cart */
+.ai-add-cart-btn {
+  background-color: #ffd60a;
+  color: #000814;
+}
+.ai-add-cart-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(255, 214, 10, 0.5);
+}
+
+/* Generate Suggestions */
+.ai-suggestion-btn {
+  background-color: #00b4d8;
+  color: white;
+}
+.ai-suggestion-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0, 180, 216, 0.6);
+}
+
+/* 🔹 Suggestions Section */
+.ai-suggestion-section {
+  margin: 3rem auto;
+  max-width: 1000px;
+  text-align: center;
+  padding: 2rem;
+  border-radius: 12px;
+  background: rgba(0, 30, 60, 0.5);
+  color: #d6e9ff;
+  box-shadow: 0 4px 12px rgba(0, 102, 255, 0.3);
+}
+
+.ai-suggestion-section h3 {
+  font-size: 1.8rem;
+  margin-bottom: 1.2rem;
+  color: #00bfff;
+}
+
+.ai-suggestion-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.ai-suggestion-list li {
+  background: rgba(0, 119, 255, 0.15);
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+  margin: 0.5rem 0;
+  color: #e0f7ff;
+  border: 1px solid rgba(0, 191, 255, 0.3);
+  transition: background 0.2s;
+}
+
+.ai-suggestion-list li:hover {
+  background: rgba(0, 119, 255, 0.25);
+}
+
+/* adding download button 20 sep - tushar */
+.ai-download-btn {
+  margin-top: 10px;
+  padding: 6px 12px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.ai-download-btn:hover {
+  background: #0056b3;
+}
+
+.ai-copy-btn {
+  margin-left: 8px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  padding: 4px;
+  color: #555;
+  transition: color 0.2s;
+}
+
+.ai-copy-btn:hover {
+  color: #007bff;
+}
+
+.copied-msg {
+  margin-left: 6px;
+  font-size: 12px;
+  color: green;
+}
+
+/* 📱 Responsive */
+@media (max-width: 900px) {
+  .ai-product-detail-container {
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .ai-image-gallery {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .ai-button-row {
+    flex-direction: column;
+  }
+}

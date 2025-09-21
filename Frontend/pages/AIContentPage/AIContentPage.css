@@ -1,0 +1,47 @@
+/* Page wrapper */
+.ai-content-page {
+  min-height: 100vh;
+  padding: 60px 80px;
+  width: 100%;
+  background: linear-gradient(135deg, #000000, #001a26); /* dark bluish bg */
+  font-family: "Poppins", sans-serif;
+  color: #fdfce5; /* light yellowish white */
+  box-sizing: border-box;
+}
+
+/* Title */
+.page-title {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 40px;
+  color: #ffeb3b; /* neon yellow */
+  text-shadow: 0 0 10px rgba(255, 235, 59, 0.7), 0 0 20px rgba(255, 235, 59, 0.5);
+}
+
+/* Product cards grid */
+.content-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 30px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Loading / Error / Empty */
+.loading,
+.error,
+.no-products {
+  grid-column: 1 / -1;
+  text-align: center;
+  margin-top: 30px;
+  font-size: 1.1rem;
+}
+
+.error {
+  color: #ff6b6b;
+}
+
+.no-products {
+  color: #ffeb99;
+}

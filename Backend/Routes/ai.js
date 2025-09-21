@@ -110,6 +110,91 @@ router.post("/enhance-image/:id", async (req, res) => {
 
     console.log("💾 Enhancement record updated in DB:", enhancement._id);
 
+<<<<<<< Updated upstream
+=======
+/**
+ * ===============================
+ * 2️⃣ Generate AI Suggestions (Groq)
+ * ===============================
+ */
+function mapToSchemaFields(suggestions) {
+  return {
+    suggestedTitles: suggestions.suggestedTitles || [],
+    suggestedDescriptions: suggestions.descriptions || [], // map correctly
+    suggestedTags: suggestions.productTags || [],
+    suggestedPrices: (suggestions.priceInRupees || []).map(p => Number(p)),
+
+    suggestionsBox: {
+      platforms: suggestions.platforms || [],
+      targetAudience: suggestions.targetAudiences || [],
+      geoMarkets: suggestions.geoMarkets || [],
+      seasonalDemand: suggestions.seasonalDemand || [],
+      festivals: suggestions.festivals || [],
+      giftingOccasions: suggestions.giftingOccasions || [],
+      marketingChannels: suggestions.marketingChannels || [],
+      contentIdeas: suggestions.contentIdeas || [],
+      influencerMatch: suggestions.influencerMatches || [], // map correctly
+      hashtags: suggestions.hashtags || [],
+      collaborationTips: suggestions.collaborationTips || [],
+      crossSellUpsell: suggestions.crossSellUpsell || [],
+      packagingIdeas: suggestions.packagingIdeas || [],
+      customerRetention: suggestions.customerRetention || [],
+      sustainabilityTips: suggestions.sustainabilityTips || [],
+      costCuttingTips: suggestions.costCuttingTips || [],
+      competitorInsights: suggestions.competitorInsights || [],
+      currentTrends: suggestions.currentTrends || [],
+      emotionalTriggers: suggestions.emotionalTriggers || [],
+      colorPsychology: suggestions.colorPsychology || [],
+      causeMarketing: suggestions.causeMarketing || [],
+    }
+  };
+}
+
+router.post("/generate-suggestions/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    console.log("💡 Generating suggestions for product:", id);
+
+    const product = await Product.findById(id);
+    if (!product) return res.status(404).json({ error: "Product not found" });
+
+    const prompt = `
+      Analyze this product description: "${product.title}:${product.description || ""}".
+      Suggest structured business insights in JSON format with these fields:
+      suggested titles, descriptions, product tags, price in rupees, categories, platforms, targetAudiences, geoMarkets, seasonalDemand, festivals, giftingOccasions,
+      marketingChannels, contentIdeas, influencerMatches, hashtags, collaborationTips,
+      crossSellUpsell, packagingIdeas, customerRetention, sustainabilityTips, costCuttingTips,
+      competitorInsights, currentTrends, emotionalTriggers, colorPsychology, causeMarketing.
+      Return ONLY valid JSON.
+    `;
+
+    const suggestionText = await groqChat(prompt);
+
+    if (!suggestionText.trim()) {
+      throw new Error("Model returned empty response");
+    }
+
+    // Parse + normalize
+    let suggestions = safeParseJSON(suggestionText);
+    suggestions = normalizeSuggestions(suggestions);
+    console.log(suggestions)
+    // Save to DB
+    const mappedSuggestions = mapToSchemaFields(suggestions);
+
+await AiEnhancement.findOneAndUpdate(
+  { productId: product._id },
+  { 
+    $set: {
+      ...mappedSuggestions,
+      rawSuggestionsText: suggestionText,
+    }
+  },
+  { upsert: true, new: true }
+);
+
+
+    console.log("✅ Suggestions generated and saved.");
+>>>>>>> Stashed changes
     res.json({
       productId: product._id,
       enhancedImages: enhancedPairs,
