@@ -18,5 +18,5 @@ app.get("/", (req, res) => {
 // const { protect } = require("./Middleware/sellerPanelauthMidWar");
 // app.use("/api/products", protect, require("./routes/productInfo.routes"));
 
-// Export app for Vercel
-module.exports = app;
+// ✅ Export handler for Vercel
+module.exports = (req, res) => app(req, res);
