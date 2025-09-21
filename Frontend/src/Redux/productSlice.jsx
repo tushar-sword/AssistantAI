@@ -57,7 +57,7 @@ export const fetchProductById = createAsyncThunk(
   }
 );
 
-// 👉 Enhance Product Images (AI) from ProductDetailsPage
+// 👉 Enhance Product Images (AI)
 export const enhanceProductImage = createAsyncThunk(
   "products/enhanceImage",
   async (id, thunkAPI) => {
@@ -73,7 +73,7 @@ export const enhanceProductImage = createAsyncThunk(
         config
       );
 
-      return res.data; // { productId, enhancedImages }
+      return res.data; // expected { productId, enhancedImages: [...] }
     } catch (error) {
       return thunkAPI.rejectWithValue(
         error.response?.data?.message || "Failed to enhance image"
@@ -154,12 +154,12 @@ const productSlice = createSlice({
 
         const { productId, enhancedImages } = action.payload;
 
-        // update inside items
+        // ✅ Update the product inside items[]
         state.items = state.items.map((item) =>
           item._id === productId ? { ...item, enhancedImages } : item
         );
 
-        // update selectedProduct
+        // ✅ Update selectedProduct if it matches
         if (state.selectedProduct && state.selectedProduct._id === productId) {
           state.selectedProduct.enhancedImages = enhancedImages;
         }

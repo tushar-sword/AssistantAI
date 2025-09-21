@@ -42,7 +42,7 @@
   text-shadow: 0 0 8px rgba(0, 255, 153, 0.7);
 }
 
-/* ===== Auth Buttons Styling ===== */
+/* === Auth Buttons Styling  */
 .auth-section {
   display: flex;
   align-items: center;
@@ -59,7 +59,7 @@
   backdrop-filter: blur(6px);
 }
 
-/* Login Button */
+
 .login-btn {
   background: rgba(0, 255, 127, 0.12);
   color: #00ff7f;
@@ -81,7 +81,7 @@
   box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
 }
 
-/* Logout Button */
+/* Logout-Button */
 .logout-btn {
   background: rgba(255, 0, 0, 0.15);
   color: #ff6b6b;

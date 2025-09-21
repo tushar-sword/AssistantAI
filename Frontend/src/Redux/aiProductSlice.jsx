@@ -1,10 +1,10 @@
-// src/Redux/aiProductSlice.js
+// this is most important file 
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const AI_API_URL = "http://localhost:5000/api/ai";
 
-// 👉 Fetch all AI-enhanced products
+//Fetch all AI-enhanced product
 export const fetchAiProducts = createAsyncThunk(
   "aiProducts/fetchAll",
   async (_, thunkAPI) => {
@@ -19,7 +19,7 @@ export const fetchAiProducts = createAsyncThunk(
   }
 );
 
-// 👉 Fetch AI-enhanced product by ID
+//Fetch AI-enhanced product by id
 export const fetchAiProductById = createAsyncThunk(
   "aiProducts/fetchById",
   async (id, thunkAPI) => {
@@ -34,7 +34,7 @@ export const fetchAiProductById = createAsyncThunk(
   }
 );
 
-// 👉 Enhance Product Images (from AiProductDetailsPage)
+//Enhance Product Images (from AiProductDetailsPage)
 export const enhanceAiProductImage = createAsyncThunk(
   "aiProducts/enhanceImage",
   async (id, thunkAPI) => {
@@ -48,7 +48,7 @@ export const enhanceAiProductImage = createAsyncThunk(
         config
       );
 
-      return res.data; // { productId, enhancedImages }
+      return res.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(
         error.response?.data?.message || "Failed to enhance AI product image"
@@ -57,7 +57,7 @@ export const enhanceAiProductImage = createAsyncThunk(
   }
 );
 
-// 👉 Generate AI Suggestions (from AiProductDetailsPage)
+//Generate AI Suggestion
 export const generateAiSuggestions = createAsyncThunk(
   "aiProducts/generateSuggestions",
   async (id, thunkAPI) => {
@@ -71,7 +71,7 @@ export const generateAiSuggestions = createAsyncThunk(
         config
       );
 
-      return res.data; // { productId, suggestionsBox or suggestions }
+      return res.data; 
     } catch (error) {
       return thunkAPI.rejectWithValue(
         error.response?.data?.message || "Failed to generate suggestions"
@@ -99,7 +99,7 @@ const aiProductSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // FETCH ALL
+      // FETCH sab kuch
       .addCase(fetchAiProducts.pending, (state) => {
         state.isLoading = true;
       })
@@ -127,7 +127,7 @@ const aiProductSlice = createSlice({
         state.message = action.payload;
       })
 
-      // ENHANCE IMAGE
+      // ENHANCEEMENT IMAGE
       .addCase(enhanceAiProductImage.pending, (state) => {
         state.isLoading = true;
       })
@@ -150,7 +150,7 @@ const aiProductSlice = createSlice({
             : item
         );
 
-        // update selected product
+     
         if (state.selectedAiProduct?.product?._id === productId) {
           state.selectedAiProduct.aiEnhancement = {
             ...(state.selectedAiProduct.aiEnhancement || {}),
@@ -164,7 +164,7 @@ const aiProductSlice = createSlice({
         state.message = action.payload;
       })
 
-      // GENERATE SUGGESTIONS (UPDATED)
+      // GENERATE SUGGESTIONS (UPDATED) - tushar
       .addCase(generateAiSuggestions.pending, (state) => {
         state.isLoading = true;
       })
@@ -173,7 +173,7 @@ const aiProductSlice = createSlice({
         state.isSuccess = true;
 
         const { productId } = action.payload;
-        // prefer suggestionsBox from backend; fallback to suggestions for safety
+    
         const suggestionsBox =
           action.payload.suggestionsBox ?? action.payload.suggestions;
 
@@ -190,7 +190,7 @@ const aiProductSlice = createSlice({
             : item
         );
 
-        // update selected product
+        
         if (state.selectedAiProduct?.product?._id === productId) {
           state.selectedAiProduct.aiEnhancement = {
             ...(state.selectedAiProduct.aiEnhancement || {}),

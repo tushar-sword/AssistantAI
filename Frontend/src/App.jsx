@@ -7,8 +7,10 @@ import ProfilePage from "../pages/ProfilePage/ProfilePage";
 import ProductReviewPage from "../pages/ProductReviewPage/ProductReviewPage";
 import AIProRevPage from "../pages/AIProductReviewPage/AIProRevPage";
 import AIContentPage from "../pages/AIContentPage/AIContentPage";
-import AIProductDetailPage from "../pages/AiProductDetailPage/AiProductDetailPage";
 import ProductDetailPage from "../pages/ProductDetailPage/ProductDetailPage";
+import AIProductDetailPage from "../pages/AiProductDetailPage/AIProductDetailPage";
+import ContentProductDetails from "../pages/ContentProductDetails/ContentProductDetails";
+import ContentGenerationPage from "../pages/ContentGenrationPage/ContentGenerationPage";
 
 
 function App() {
@@ -24,7 +26,13 @@ function App() {
         <Route path="/ai-product-review" element={<AIProRevPage />} />
         <Route path="/ai-content" element={<AIContentPage />} />
         <Route path="/products/:id" element={<ProductDetailPage />} />
-        <Route path="/ai-products/:id" element={<AIProductDetailPage />} /> {/* ✅ new route */}
+
+        <Route path="/ai-products/:id" element={<AIProductDetailPage />} /> 
+
+
+        
+        <Route path="/ai-content/:id/details" element={<ContentProductDetails />} />
+        <Route path="/ai-content/:id/content" element={<ContentGenerationPage />} />
       </Routes>
     </Router>
   );

@@ -10,7 +10,7 @@ const ProductAddPage = () => {
       <Navbar />
     <div className="product-add-page">
       
-      {/* <div className="page-header">
+      {/* <div className="page-header"> -tushar will change its style later
         <h1>Add New Product</h1>
         <p>Fill in the details below to add your product to the store</p>
       </div> */}

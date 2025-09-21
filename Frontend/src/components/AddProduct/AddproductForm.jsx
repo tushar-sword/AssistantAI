@@ -16,7 +16,7 @@ const AddproductForm = () => {
     description: "",
   });
 
-  const [images, setImages] = useState([]); // actual File objects
+  const [images, setImages] = useState([]); 
   const [imagePreview, setImagePreview] = useState([]);
 
   const handleImageChange = (e) => {
@@ -48,7 +48,7 @@ const AddproductForm = () => {
     dispatch(addProduct(formData));
   };
 
-  // ✅ Auto-clear success/error after 3 seconds & reset form if success
+  //Auto-clear 
   useEffect(() => {
     if (isSuccess || isError) {
       const timer = setTimeout(() => {

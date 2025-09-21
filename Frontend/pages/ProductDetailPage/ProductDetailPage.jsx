@@ -21,19 +21,19 @@ const ProductDetailPage = () => {
 
   const [mainImage, setMainImage] = useState("");
 
-  // ✅ Fetch product by ID
+  //Fetch the product by ID
   useEffect(() => {
     dispatch(fetchProductById(id));
   }, [dispatch, id]);
 
-  // ✅ Set main image initially
+  //Setting main image initially
   useEffect(() => {
     if (product?.images?.length > 0) {
       setMainImage(product.images[0].url);
     }
   }, [product]);
 
-  // ✅ Handle AI Enhancement
+  //Handle AI Enhancement
   const handleEnhance = () => {
     if (product?._id) {
       dispatch(enhanceProductImage(product._id));
@@ -64,9 +64,21 @@ const ProductDetailPage = () => {
           <div className="main-image">
             <img src={mainImage} alt={product.name} />
           </div>
+
+          {/*Show Enhanced Image if available */}
+          {product.enhancedImage && (
+            <div className="enhanced-image-section">
+              <h4>✨ AI Enhanced Image</h4>
+              <img
+                src={product.enhancedImage}
+                alt="AI Enhanced"
+                className="enhanced-image"
+              />
+            </div>
+          )}
         </div>
 
-        {/* Right Side - Product Info */}
+        {/*Right Side with Product Info */}
         <div className="product-info">
           <h2>{product.name}</h2>
           <p className="price">₹{product.price}</p>
@@ -81,6 +93,12 @@ const ProductDetailPage = () => {
             </button>
           </div>
         </div>
+      </div>
+
+      {/*Placeholder AI Suggestions */}
+      <div className="suggestion-section">
+        <h3>You may also like</h3>
+        <p>AI-generated product recommendations will appear here.</p>
       </div>
 
       <Footer />
